@@ -1,0 +1,50 @@
+const winston = require('winston')
+require('winston-daily-rotate-file')
+
+const {transports, format} = winston
+const {Console, DailyRotateFile} = transports
+const {combine, timestamp, label, prettyPrint,json} = format
+
+const logger = winston.createLogger({
+  transports: [
+    new Console(),
+    new DailyRotateFile({
+      name: 'base_logger',
+      filename: './src/server/logs/info-%DATE%.log',
+      datePattern: 'YYYY-MM-DD',
+      //zippedArchive: true,
+      prepend: false,
+      maxSize: '20m',
+      maxFiles: '14d',
+      level: 'info',
+      format: combine(
+          timestamp(),
+          prettyPrint(),
+          json()
+      ),
+    }),
+    new DailyRotateFile({
+      name: 'error_logger',
+      filename: './src/server/logs/error-%DATE%.log',
+      datePattern: 'YYYY-MM-DD',
+      //zippedArchive: true,
+      prepend: false,
+      maxSize: '20m',
+      maxFiles: '14d',
+      level: 'error',
+      format: combine(
+          timestamp(),
+          prettyPrint(),
+          json()
+      ),
+    }),
+  ]
+})
+
+logger.exceptions.handle(
+    new transports.File(
+        {filename: './src/server/logs/exceptions.log'}
+        )
+)
+
+module.exports = logger
