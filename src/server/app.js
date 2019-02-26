@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const axios = require('axios')
+const mongoose = require('mongoose')
 
 //allow custom header and CORS
 app.all('*', function (req, res, next) {
@@ -47,6 +49,9 @@ app.get('/userInfo', function (req, res) {
 
 
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!')
-})
+
+// app.listen(3000, () => {
+//   console.log('Example app listening on port 3000!')
+// })
+
+module.exports = app
