@@ -1,15 +1,21 @@
 const express = require('express')
 const app = express()
-const axios = require('axios')
+const path = require('path')
 const mongoose = require('mongoose')
+const passport = require('passport')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session) //保存session到MongoDB
+
+const logger = require('./middlewares/logger/logger') //日志相关
+
+require('./middlewares/db/mongodb_connection')
 
 //allow custom header and CORS
 app.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');     // 跨域请求的域名端口号
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');     // 跨域请求的域名端口号
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-
-  if (req.method == 'OPTIONS') {
+  if (req.method === 'OPTIONS') {
     res.send(200);
     // /让options请求快速返回/
   }
@@ -18,40 +24,22 @@ app.all('*', function (req, res, next) {
   }
 })
 
-
-app.get('/', (req, res) => res.send('Hello World!'))
-
-
-
-
-app.post('/login', function (req, res) {
-  console.log("==req.body==", req.body)
-  let data = {
-    code: 1,
-    msg: "登录成功",
-    data: {}
-  }
-  res.send(data)
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message
+  res.locals.error = req.app.get('env') === 'development' ? err : {}
+  logger.error(err.stack)
+  res.status(err.status || 500)
+  res.render('error')
 })
 
-app.get('/userInfo', function (req, res) {
-  console.log("==req.query==", req.query)
-  let data = {
-    code: 0,
-    msg: "",
-    data: {
-      name: "JiaLei",
-      age: 18
-    }
-  }
-  res.send(data)
+process.on('uncaughtException', (err) => {
+
+  logger.error('uncaught exception', {err})
 })
 
-
-
-
-// app.listen(3000, () => {
-//   console.log('Example app listening on port 3000!')
-// })
+process.on('unhandledReject', (reason, p) => {
+  logger.error('unhandledRejection', {reason, p})
+})
 
 module.exports = app

@@ -1,19 +1,17 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const {database} = require('../../config/dbConfig')
-const uri = database.uri
+mongoose.connect(database.uri, {useNewUrlParser: true});
+
+const db = mongoose.connection;
 
 const logger = require('../logger/logger')
 
-mongoose.connect(uri)
+db.on('open',()=>{
+  logger.info(`数据库连接成功 || 成功时间: ${Date()}`);
+});
 
-const db = mongoose.connection
+db.on("error", function (error) {
+  logger.error(`数据库连接失败 || 失败时间: ${Date()}`);
+});
 
-db.on('open', () => {
-  logger.info(`数据库连接成功 || open time: ${Date()}`)
-})
-
-db.on("error", (error) => {
-  logger.error(`数据库连接失败 || 失败时间: ${Date()} || 失败原因: ${error}`)
-})
-
-module.exports = db
+module.exports = db;
