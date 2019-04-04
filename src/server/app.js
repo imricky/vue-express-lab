@@ -54,10 +54,12 @@ app.all('*', function (req, res, next) {
 })
 
 
-const testRouter = require('./routers/test/test1') //主页面
-
+const testRouter = require('./routers/test/test1') //测试页面各种测试
+const userRouter = require('./routers/api/user') //登录&注册
 
 app.use('/test', testRouter)
+app.use('/api/user', userRouter)
+
 
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
