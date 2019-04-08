@@ -2,7 +2,10 @@ const express = require('express')
 const router = express.Router()
 const {UserService} = require('../../services/user_service')
 const logger = require('../../middlewares/logger/logger')
-// const { MD5_SUFFIX, md5, secretKey } = require('../constant/constant');
+// const { MD5_SUFFIX, md5, secretKey } = require('../../config/md5_salt');
+const pbkdf2Sync = require('crypto').pbkdf2Sync
+// const bluebird = require('bluebird')
+// const pbkdf2Async = bluebird.promisify(crypto.pbkdf2);
 /*
  *  author: imricky
  *  time: 2019-04-03 16:21
@@ -15,11 +18,12 @@ router.post('/register', (req, res, next) => {
   }
   UserService.getOneByName(username)
       .then((user) => {
+        const cipher = pbkdf2Sync(req.body.password,'ashdjkaqkjwjehasd',10000,512,'sha256');
         if(user === null){
           const insertInfo = {
             username:req.body.username,
-            //password: md5(req.body.password + MD5_SUFFIX),
-            password: req.body.password,
+            password: cipher.toString('hex'),
+            //password: req.body.password,
             email: req.body.email,
             remarks: req.body.remarks
           }
