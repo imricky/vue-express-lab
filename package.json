@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "bluebird": "^3.5.3",
+    "bluebird": "^3.5.4",
     "connect-mongo": "^2.0.3",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",

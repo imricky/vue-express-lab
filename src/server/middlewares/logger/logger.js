@@ -43,7 +43,7 @@ const logger = winston.createLogger({
 
 logger.exceptions.handle(
     new transports.File(
-        {filename: './src/server/logs/exceptions.log'}
+        {filename: './logs/exceptions.log'}
         )
 )
 
