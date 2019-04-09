@@ -9,6 +9,8 @@ const { database } = require('./config/dbConfig')
 
 const logger = require('./middlewares/logger/logger') //日志相关
 
+const jwtAuth = require('./middlewares/auth/jwt') //jwt验证相关
+
 require('./middlewares/db/mongodb_connection')
 
 app.use(express.json())
@@ -53,6 +55,8 @@ app.all('*', function (req, res, next) {
   }
 })
 
+app.use(jwtAuth)
+
 
 const testRouter = require('./routers/test/test1') //测试页面各种测试
 const userRouter = require('./routers/api/user') //登录&注册
@@ -63,6 +67,10 @@ app.use('/api/user', userRouter)
 
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
+  if (err.name === 'UnauthorizedError') {
+    logger.error(err.message)
+    res.status(401).send('invalid token...');
+  }
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
   logger.error(err.stack)
