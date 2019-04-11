@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const logger = require('../middlewares/logger/logger')
 
 const userSchema = new Schema({
   username: String,
