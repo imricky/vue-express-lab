@@ -64,6 +64,7 @@ router.post('/login', (req, res, next) => {
             success: false,
             errMessage: `${username}该用户名不存在`
           })
+          return
         }
         const cipher = pbkdf2Sync(password, 'ashdjkaqkjwjehasd', 10000, 512, 'sha256')
         if (username !== user.username || cipher.toString('hex') !== user.password) {
@@ -72,6 +73,7 @@ router.post('/login', (req, res, next) => {
             success: false,
             errMessage: `用户名或密码错误`
           })
+          return
         }
         // 用户登录成功过后生成token返给前端
         let token = jwt.sign(
@@ -89,6 +91,10 @@ router.post('/login', (req, res, next) => {
         })
       }, (err) => {
         res.json({success: false, errMessage: `数据库操作失败${err}`})
+      })
+      .catch(e=>{
+        //res.json({success: false, errMessage: `数据库操作失败${e}`})
+        logger.error(`catch到了${e}`)
       })
 })
 
