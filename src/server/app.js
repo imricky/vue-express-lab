@@ -43,7 +43,7 @@ app.use(passport.session())
 
 //allow custom header and CORS
 app.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');     // 跨域请求的域名端口号
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');     // 跨域请求的域名端口号
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   if (req.method === 'OPTIONS') {
@@ -55,13 +55,13 @@ app.all('*', function (req, res, next) {
   }
 })
 
-app.use(jwtAuth)
+//app.use(jwtAuth)
 
 
 const testRouter = require('./routers/test/test1') //测试页面各种测试
 const userRouter = require('./routers/api/user') //登录&注册
 
-app.use('/test', testRouter)
+app.use('/test', jwtAuth,testRouter)
 app.use('/api/user', userRouter)
 
 

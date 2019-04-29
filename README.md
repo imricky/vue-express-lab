@@ -6,7 +6,8 @@ yarn install
 ```
 
 ### TODO
-[ ]日志每天定时存入mongodb数据库
+- [ ] 日志每天定时存入mongodb数据库(nodejs定时任务)
+- [ ] 爬虫爬取数据，存入mongodb,数据源没有想好
 
 ### Compiles and hot-reloads for development
 ```

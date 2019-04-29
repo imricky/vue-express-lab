@@ -11,9 +11,6 @@ Vue.prototype.$axios = axios
 
 
 axios.get("/api/user/listAll", {  // 这里的 this 指向 Vue
-  // params: {
-  //   ID: 12345
-  // }
 })
     .then(function(response) {
       console.log(response)
