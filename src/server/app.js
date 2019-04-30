@@ -60,9 +60,12 @@ app.all('*', function (req, res, next) {
 
 const testRouter = require('./routers/test/test1') //测试页面各种测试
 const userRouter = require('./routers/api/user') //登录&注册
+const articleRouter = require('./routers/api/article') //文章方法
 
 app.use('/test', jwtAuth,testRouter)
 app.use('/api/user', userRouter)
+app.use('/api/article', articleRouter)
+
 
 
 app.use((err, req, res, next) => {
