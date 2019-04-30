@@ -21,32 +21,35 @@ const articleModel = mongoose.model('article', articleSchema)
  *  time: 2019-04-30 15:57
  *  function: 文章的各种方法
 */
-class articleMethods {
+class ArticleMethods {
   constructor() {
   }
 
-  static async insert(article) {
-    return await articleModel.create(article)
+  //获取所有文章
+  static async getList() {
+    return await articleModel.find({})
   }
 
-  static async getOneById(id) {
-    return await articleModel.findOne({_id: id})
+  //添加and修改文章
+  static async save(article) {
+    let res =  await articleModel.create(article)
+    logger.info(res)
+    return res
   }
 
-  static async getOneByName(username) {
-    return await articleModel.findOne({username})
+  //获取单条文章信息
+  static async getInfo(id) {
+    return await articleModel.findById({_id: id})
   }
 
-  static async list(params) {
-    const match = {}
-    const flow = articleModel.find(match)
-    const users = await flow.exec()
-    logger.info('list all users')
-    return users
+  //删除文章
+  static async delete(id) {
+    let res = await articleModel.findByIdAndDelete({_id: id})
+    return res
   }
 
 }
 
 module.exports = {
-  articleMethods,
+  ArticleMethods,
 }

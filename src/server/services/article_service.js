@@ -4,24 +4,24 @@ class ArticleService {
   constructor(){
 
   }
-  static async getAllUsers() {
-    const article = await Article.articleMethods.list()
+  static async getList() {
+    const article = await Article.ArticleMethods.getList()
     return article
   }
 
-  static async insertUser(user) {
-    const created = await Article.articleMethods.insert(user)
-    return created
+  static async save(article) {
+    const res = await Article.ArticleMethods.save(article)
+    return res
   }
 
-  static async getOneById(userId) {
-    const article = await Article.articleMethods.getOneById(userId)
+  static async getInfo(id) {
+    const article = await Article.ArticleMethods.getInfo(id)
     return article
   }
 
-  static async getOneByName(username) {
-    const article = await Article.articleMethods.getOneByName(username)
-    return article
+  static async delete(id) {
+    const deleteCount = await Article.ArticleMethods.delete(id)
+    return deleteCount
   }
 }
 
