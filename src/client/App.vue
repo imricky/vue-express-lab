@@ -10,10 +10,12 @@
 import HelloWorld from './components/HelloWorld.vue'
 import Login from './components/Login.vue'
 import Welcome from "./components/Welcome"
+import ArticleAbstractCard from "./components/ArticleAbstractCard"
 
 export default {
   name: 'app',
   components: {
+    //ArticleAbstractCard
     Welcome
     //HelloWorld,
 
