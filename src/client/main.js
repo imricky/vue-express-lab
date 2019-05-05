@@ -10,14 +10,14 @@ axios.defaults.baseURL = "http://localhost:3000"  //设置 ajax 请求中的基�
 Vue.prototype.$axios = axios
 
 
-axios.get("/api/user/listAll", {  // 这里的 this 指向 Vue
-})
-    .then(function(response) {
-      console.log(response)
-    })
-    .catch(function(error) {
-      console.log(error)
-    })
+// axios.get("/api/user/listAll", {  // 这里的 this 指向 Vue
+// })
+//     .then(function(response) {
+//       console.log(response)
+//     })
+//     .catch(function(error) {
+//       console.log(error)
+//     })
 
 new Vue({
   render: h => h(App),
