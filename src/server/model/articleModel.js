@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const logger = require('../middlewares/logger/logger')
 
 const articleSchema = new Schema({
-  title: String,//文章标题
+  title: { type: String, required: true, unique: true },//文章标题
   content: String,//文章内容
   viewCount: Number,//浏览次数
   commentCount: Number,//评论次数
@@ -32,9 +32,21 @@ class ArticleMethods {
 
   //添加and修改文章
   static async save(article) {
-    let res =  await articleModel.create(article)
-    logger.info(res)
-    return res
+    try {
+      //标题必须是唯一的
+      let title = article.title
+      let res = await articleModel.findOneAndUpdate(
+          {title: title},
+          article,
+          {upsert: true,new:true,lean:true} //存在则修改，不存在则插入
+      )
+      logger.info(res)
+      return res
+    } catch (e) {
+      logger.error(e)
+      throw new Error(e)
+    }
+
   }
 
   //获取单条文章信息
