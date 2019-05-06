@@ -1,9 +1,8 @@
 <template>
   <div class="list-wrapper">
     <Card v-for="item in articleList" class="article-content" :key="item.title">
-<!--      <p slot="title">{{item.name}}</p>-->
-<!--      <a :href="item.url" target="_blank" class="list-url">{{item.url}} </a>-->
-      <p>{{item.title}}</p>
+      <p class="title">{{item.title}}</p>
+      <Divider />
       <p>{{item.content}}</p>
       <p>{{item.viewCount}}</p>
       <p>{{item.commentCount}}</p>
@@ -53,11 +52,14 @@
     background:#eee;
     padding: 10px;
     width: 1000px;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
     >.article-content{
       margin: 10px;
       .list-url{
         color: #FF9E92;
+      }
+      .title{
+        padding: 0 10px;
       }
     }
 

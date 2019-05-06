@@ -58,38 +58,6 @@
     data() {
       return {
         value: '',
-        movieList: [
-          {
-            name: 'The Shawshank Redemption',
-            url: 'https://movie.douban.com/subject/1292052/',
-            rate: 9.6
-          },
-          {
-            name: 'Leon:The Professional',
-            url: 'https://movie.douban.com/subject/1295644/',
-            rate: 9.4
-          },
-          {
-            name: 'Farewell to My Concubine',
-            url: 'https://movie.douban.com/subject/1291546/',
-            rate: 9.5
-          },
-          {
-            name: 'Forrest Gump',
-            url: 'https://movie.douban.com/subject/1292720/',
-            rate: 9.4
-          },
-          {
-            name: 'Life Is Beautiful',
-            url: 'https://movie.douban.com/subject/1292063/',
-            rate: 9.5
-          },
-          {
-            name: 'Spirited Away',
-            url: 'https://movie.douban.com/subject/1291561/',
-            rate: 9.2
-          }
-        ],
       }
     }
   }
