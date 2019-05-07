@@ -1,14 +1,35 @@
 <template>
   <div class="list-wrapper">
+    {{articleList}}
     <Card v-for="item in articleList" class="article-content" :key="item.title">
-      <p class="title">{{item.title}}</p>
-      <Divider />
-      <p>{{item.content}}</p>
-      <p>{{item.viewCount}}</p>
-      <p>{{item.commentCount}}</p>
-      <p>{{item.time}}</p>
-      <p>{{item.author}}</p>
-      <p>{{item.tags}}</p>
+      <div class="title">
+        <p>{{item.title}}</p>
+      </div>
+      <Divider/>
+      <div class="content">
+        <p>{{item.content}}</p>
+      </div>
+      <div class="info">
+        <span class="view-info">
+          <a href="#" v-for="i in item.tags" :key="i">{{i}}</a>
+          <span class="info-dot">•</span>
+        </span>
+        <span class="view-info viewCount" v-if="item.viewCount">
+          {{item.viewCount}}
+          <span class="info-dot">•</span>
+        </span>
+        <span class="view-info">
+          {{item.commentCount}}
+          <span class="info-dot">•</span>
+        </span>
+        <span class="view-info">
+          {{item.time}}
+          <span class="info-dot">•</span>
+        </span>
+        <span class="view-info author">
+          {{item.author}}
+        </span>
+      </div>
       <p>{{item.isPublish}}</p>
     </Card>
   </div>
@@ -24,13 +45,13 @@
   */
   export default {
     name: "ArticleAbstractCard",
-    data(){
+    data() {
       return {
         articleList: '',
       }
     },
-    methods:{
-      getList(){
+    methods: {
+      getList() {
         axios.get("/api/article/getList", {  // 这里的 this 指向 Vue
         })
             .then((response) => {
@@ -48,18 +69,42 @@
 </script>
 
 <style scoped lang="scss">
-  .list-wrapper{
-    background:#eee;
+  .list-wrapper {
+    box-sizing: border-box;
+    margin: 0 auto;
+    background: #eee;
     padding: 10px;
-    width: 1000px;
+    width: 850px;
     /*margin: 0 auto;*/
-    >.article-content{
+    > .article-content {
       margin: 10px;
-      .list-url{
+
+      .list-url {
         color: #FF9E92;
       }
-      .title{
+
+      .title {
         padding: 0 10px;
+      }
+
+      .content {
+        height: 100px;
+        width: 750px;
+        border: 1px solid red;
+      }
+
+      .info {
+        text-align: left;
+      }
+
+      .view-info {
+        padding: 0 5px;
+        .info-dot{
+          padding: 0 5px 0 12px;
+        }
+      }
+      .author{
+
       }
     }
 
