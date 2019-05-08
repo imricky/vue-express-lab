@@ -10,8 +10,11 @@
         <p>{{item.content}}</p>
       </div>
       <div class="info">
-        <span class="view-info">
-          <a href="#" v-for="i in item.tags" :key="i">{{i}}</a>
+        <span class="view-info tags">
+          <a href="#"
+             v-for="(i,index) in handleTags(item.tags)"
+             :key="index">{{i}}
+          </a>
           <span class="info-dot">•</span>
         </span>
         <span class="view-info viewCount" v-if="item.viewCount">
@@ -37,7 +40,6 @@
 
 <script>
   import axios from 'axios'
-  import Vue from 'vue'
   /*
    *  author: imricky
    *  time: 2019-05-05 19:58
@@ -60,8 +62,16 @@
             .catch((error) => {
               console.log(error)
             })
+      },
+      handleTags(tags) {
+        if (tags.indexOf(',') === -1) {
+          return tags
+        } else {
+          return tags.split(',')
+        }
       }
     },
+    computed: {},
     mounted() {
       this.getList()
     }
@@ -99,11 +109,13 @@
 
       .view-info {
         padding: 0 5px;
-        .info-dot{
+
+        .info-dot {
           padding: 0 5px 0 12px;
         }
       }
-      .author{
+
+      .author {
 
       }
     }

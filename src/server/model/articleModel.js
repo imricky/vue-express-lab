@@ -10,7 +10,7 @@ const articleSchema = new Schema({
   time: String,//发表时间
   coverImg: String,//封面图片
   author: String,//作者
-  tags: Array,//标签
+  tags: String,//标签
   isPublish: Boolean//是否发布
 })
 
