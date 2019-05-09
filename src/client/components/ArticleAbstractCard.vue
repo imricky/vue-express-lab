@@ -77,11 +77,14 @@
             })
       },
       handleTags(tags) {
-        if (tags.indexOf(',') === -1) {
-          return tags
-        } else {
-          return tags.split(',')
+        if (tags) {
+          if (tags.indexOf(',') === -1) {
+            return tags
+          } else {
+            return tags.split(',')
+          }
         }
+        return tags
       }
     },
     computed: {},

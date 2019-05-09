@@ -8,11 +8,11 @@
             <Input search enter-button placeholder="Enter something..." />
           </div>
           <div class="layout-nav">
-            <MenuItem name="1">
+            <MenuItem name="1" to="http://baidu.com">
               <Icon type="ios-navigate"></Icon>
               登录
             </MenuItem>
-            <MenuItem name="2">
+            <MenuItem name="2" to="http://baidu.com">
               <Icon type="ios-keypad"></Icon>
               注册
             </MenuItem>
@@ -58,6 +58,11 @@
     data() {
       return {
         value: '',
+      }
+    },
+    methods:{
+      abc(){
+        console.log(123)
       }
     }
   }
