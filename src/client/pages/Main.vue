@@ -8,11 +8,11 @@
             <Input search enter-button placeholder="Enter something..." />
           </div>
           <div class="layout-nav">
-            <MenuItem name="1" to="http://baidu.com">
+            <MenuItem name="1" to="/foo">
               <Icon type="ios-navigate"></Icon>
               登录
             </MenuItem>
-            <MenuItem name="2" to="http://baidu.com">
+            <MenuItem name="2" to="bar">
               <Icon type="ios-keypad"></Icon>
               注册
             </MenuItem>
