@@ -1,35 +1,30 @@
 <template>
   <div id="app">
-<!--    <img alt="Vue logo" src="./assets/logo.png">-->
-<!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-    <Welcome />
+    <!--    <img alt="Vue logo" src="./assets/logo.png">-->
+    <!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
+    <Main/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import Login from './components/Login.vue'
-import Welcome from "./components/Welcome"
-import ArticleAbstractCard from "./components/ArticleAbstractCard"
+  import Main from "./pages/Main"
 
-export default {
-  name: 'app',
-  components: {
-    //ArticleAbstractCard
-    Welcome
-    //HelloWorld,
+  export default {
+    name: 'app',
+    components: {
+      Main
 
+    }
   }
-}
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /*text-align: center;*/
-  color: #2c3e50;
-  /*margin-top: 60px;*/
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /*text-align: center;*/
+    color: #2c3e50;
+    /*margin-top: 60px;*/
+  }
 </style>

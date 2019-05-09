@@ -9,29 +9,42 @@
       <div class="content">
         <p>{{item.content}}</p>
       </div>
+      <Row type="flex" justify="start" class="code-row-bg">
+        <Col span="4">
+          <span class="view-info tags">
+            <a href="#"
+               v-for="(i,index) in handleTags(item.tags)"
+               :key="index">{{i}}
+            </a>
+            <span class="info-dot">•</span>
+          </span>
+        </Col>
+        <Col span="4">
+          <span class="view-info viewCount" v-if="item.viewCount">
+            {{item.viewCount}}
+            <span class="info-dot">•</span>
+          </span>
+        </Col>
+        <Col span="4">
+          <span class="view-info">
+            {{item.commentCount}}
+            <span class="info-dot">•</span>
+          </span>
+        </Col>
+        <Col span="4">
+          <span class="view-info">
+            {{item.time}}
+            <span class="info-dot">•</span>
+          </span>
+        </Col>
+        <Col span="4">
+          <span class="view-info author">
+            {{item.author}}
+          </span>
+        </Col>
+      </Row>
       <div class="info">
-        <span class="view-info tags">
-          <a href="#"
-             v-for="(i,index) in handleTags(item.tags)"
-             :key="index">{{i}}
-          </a>
-          <span class="info-dot">•</span>
-        </span>
-        <span class="view-info viewCount" v-if="item.viewCount">
-          {{item.viewCount}}
-          <span class="info-dot">•</span>
-        </span>
-        <span class="view-info">
-          {{item.commentCount}}
-          <span class="info-dot">•</span>
-        </span>
-        <span class="view-info">
-          {{item.time}}
-          <span class="info-dot">•</span>
-        </span>
-        <span class="view-info author">
-          {{item.author}}
-        </span>
+
       </div>
       <p>{{item.isPublish}}</p>
     </Card>
@@ -116,7 +129,7 @@
       }
 
       .author {
-
+        color: #FF9E92;
       }
     }
 

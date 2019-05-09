@@ -42,6 +42,7 @@
             <ArticleAbstractCard />
           </Content>
         </Layout>
+
       </Layout>
       <Footer class="layout-footer-center">2019 &copy; imricky</Footer>
     </Layout>
