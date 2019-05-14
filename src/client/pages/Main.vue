@@ -11,7 +11,11 @@
 
             <MenuItem name="1">
               <Icon type="ios-navigate"></Icon>
-              {{username + "123"}}
+              {{username}}
+            </MenuItem>
+            <MenuItem name="3" @click.native="logout">
+              <Icon type="ios-keypad" ></Icon>
+              注销
             </MenuItem>
           </div>
           <div class="layout-nav" v-else>
@@ -58,6 +62,7 @@
 <script>
   import ArticleAbstractCard from "../components/ArticleAbstractCard"
   import jwt from 'jsonwebtoken'
+
   export default {
     name: "Main",
     components: {
@@ -69,8 +74,8 @@
         username: ''
       }
     },
-    computed:{
-      getUsername(){
+    computed: {
+      getUsername() {
         return this.username
       }
     },
@@ -81,20 +86,16 @@
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
-      '$route' (to, from) {
+      '$route'(to, from) {
         console.log(to)
         this.fetchData()
       }
     },
     methods: {
-      abc() {
-        console.log(123)
-      },
       fetchData() {
         //怎么页面显示呢，直接从jwt中获取用户名，显示到页面上，若果需要进一步操作，则再发请求进行校验
-        console.log(window.localStorage.getItem('jwt_token'))
         let token = window.localStorage.getItem('jwt_token')
-        if(token){
+        if (token) {
           let userInfo = jwt.decode(token)
           this.username = userInfo.username
         }
@@ -107,6 +108,12 @@
         //     this.post = post
         //   }
         // })
+      },
+      logout() {
+        console.log(123)
+        window.localStorage.removeItem('jwt_token')
+        this.$router.go(0) //路由刷新，但是会一瞬间白屏，体验不好
+        // location.reload() //同样的效果
       },
     }
   }
