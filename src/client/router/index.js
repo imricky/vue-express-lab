@@ -6,11 +6,14 @@ import SignIn from '../pages/login/signin'
 import SignUp from '../pages/login/signup'
 import Main from '../pages/Main'
 import NotFound from '../pages/404/404'
+import Editor from '../pages/admin/editor'
 
 const routes = [
-  {path: '/', component: Main},
+  //{path: '/', component: Main},
+  {path: '/', component: Editor},
   {path: '/signin', component: SignIn},
   {path: '/signup', component: SignUp},
+
   {
     name: '404',
     path: '/404',
@@ -28,6 +31,30 @@ const routes = [
 const router = new VueRouter({
   // mode:'history', //去掉url中的#
   routes // (缩写) 相当于 routes: routes
+})
+
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  console.log(from)
+  next()
+  // if(getToken()){
+  //   //登录后将导向/login路由重定向到主页面
+  //   if (to.path === '/login') {
+  //     next({path: '/'})
+  //     //检测vuex储存的用户信息是否还存在,不存在重新获取一次
+  //   } else if (!store.getters.role) {
+  //     store.dispatch('GetInfo').then(() => {
+  //       next({...to})
+  //     })
+  //   } else {//next()终止跳出循环
+  //     next()
+  //   }
+  // }else if (whiteList.indexOf(to.path) !== -1) {
+  //   //如果前往的路径是白名单内的,就可以直接前往
+  //   next()
+  // }else {
+  //   next('/login');
+  // }
 })
 
 export default router
