@@ -5,11 +5,21 @@ Vue.use(VueRouter)
 import SignIn from '../pages/login/signin'
 import SignUp from '../pages/login/signup'
 import Main from '../pages/Main'
+import NotFound from '../pages/404/404'
 
 const routes = [
   {path: '/', component: Main},
   {path: '/signin', component: SignIn},
   {path: '/signup', component: SignUp},
+  {
+    name: '404',
+    path: '/404',
+    component: NotFound,
+  },
+  {
+    path: '*',    // 此处需特别注意至于最底部
+    redirect: '/404'
+  }
 
 ]
 
