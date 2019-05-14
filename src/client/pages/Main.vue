@@ -5,9 +5,16 @@
         <Menu mode="horizontal" theme="dark" active-name="1">
           <div class="layout-logo"></div>
           <div class="search">
-            <Input search enter-button placeholder="Enter something..." />
+            <Input search enter-button placeholder="Enter something..."/>
           </div>
-          <div class="layout-nav">
+          <div class="layout-nav" v-if="getUsername">
+
+            <MenuItem name="1">
+              <Icon type="ios-navigate"></Icon>
+              {{username + "123"}}
+            </MenuItem>
+          </div>
+          <div class="layout-nav" v-else>
             <MenuItem name="1" to="/signin">
               <Icon type="ios-navigate"></Icon>
               登录
@@ -38,7 +45,7 @@
         </Sider>
         <Layout class="content-wrapper">
           <Content class="content">
-            <ArticleAbstractCard />
+            <ArticleAbstractCard/>
           </Content>
         </Layout>
 
@@ -50,20 +57,57 @@
 
 <script>
   import ArticleAbstractCard from "../components/ArticleAbstractCard"
+  import jwt from 'jsonwebtoken'
   export default {
     name: "Main",
-    components:{
+    components: {
       ArticleAbstractCard
     },
     data() {
       return {
         value: '',
+        username: ''
       }
     },
-    methods:{
-      abc(){
-        console.log(123)
+    computed:{
+      getUsername(){
+        return this.username
       }
+    },
+    created() {
+      // 组件创建完后获取数据，
+      // 此时 data 已经被 observed 了
+      this.fetchData()
+    },
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      '$route' (to, from) {
+        console.log(to)
+        this.fetchData()
+      }
+    },
+    methods: {
+      abc() {
+        console.log(123)
+      },
+      fetchData() {
+        //怎么页面显示呢，直接从jwt中获取用户名，显示到页面上，若果需要进一步操作，则再发请求进行校验
+        console.log(window.localStorage.getItem('jwt_token'))
+        let token = window.localStorage.getItem('jwt_token')
+        if(token){
+          let userInfo = jwt.decode(token)
+          this.username = userInfo.username
+        }
+        // replace getPost with your data fetching util / API wrapper
+        // getPost(this.$route.params.id, (err, post) => {
+        //   this.loading = false
+        //   if (err) {
+        //     this.error = err.toString()
+        //   } else {
+        //     this.post = post
+        //   }
+        // })
+      },
     }
   }
 </script>

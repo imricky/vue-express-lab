@@ -87,6 +87,7 @@ router.post('/login', (req, res, next) => {
         res.json({
           success: true,
           message: `用户${username}登录成功`,
+          username,
           token: token
         })
       }, (err) => {
