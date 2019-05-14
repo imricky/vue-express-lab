@@ -1,12 +1,13 @@
 <style scoped>
-  .layout{
+  .layout {
     border: 1px solid #d7dde4;
     background: #f5f7f9;
     position: relative;
     border-radius: 4px;
     overflow: hidden;
   }
-  .layout-logo{
+
+  .layout-logo {
     width: 100px;
     height: 30px;
     background: #5b6270;
@@ -16,12 +17,14 @@
     top: 15px;
     left: 20px;
   }
-  .layout-nav{
+
+  .layout-nav {
     width: 420px;
     margin: 0 auto;
     margin-right: 20px;
   }
-  .layout-footer-center{
+
+  .layout-footer-center {
     text-align: center;
   }
 </style>
@@ -52,15 +55,17 @@
         </Menu>
       </Header>
       <Content class="content">
-        <Divider orientation="left" size="small" >标题</Divider>
-        <Input v-model="title" class="input title" clearable placeholder="Enter something..."  />
+        <Divider orientation="left" size="small">标题</Divider>
+        <Input v-model="title" class="input title" clearable placeholder="Enter something..."/>
         <Divider orientation="left" size="small">标签</Divider>
-        <Input v-model="tags" class="input tags" icon="ios-clock-outline" placeholder="Enter something..." />
+        <Input v-model="tags" class="input tags" icon="ios-clock-outline" placeholder="Enter something..."/>
         <Divider orientation="left" size="small">正文</Divider>
-        <Input v-model="content" class="input content-body" type="textarea" :rows="14" placeholder="Enter something..." />
+        <Input v-model="content" class="input content-body" v-if="!isMarked" type="textarea" :rows="14"
+               placeholder="Enter something..."/>
+        <div class="preview animated fadeIn content-body" v-if="isMarked" v-html="mdHtml" tabIndex="1" v-focus></div>
         <div class="publish">
           <Button icon="ios-search">发布</Button>
-          <Button icon="ios-search">预览</Button>
+          <Button icon="ios-search" @click="preview">预览</Button>
         </div>
       </Content>
       <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
@@ -68,49 +73,97 @@
   </div>
 </template>
 <script>
+  import marked from 'marked'
+  import hljs from 'highlight.js'
+  import javascript from 'highlight.js/lib/languages/javascript';
+  import 'highlight.js/styles/monokai-sublime.css';
+
+  // marked.setOptions({
+  //   renderer: new marked.Renderer(),
+  //   highlight: function (code) {
+  //     return hljs.highlightAuto(code).value
+  //   },
+  //   sanitize: true
+  // })
+
+  marked.setOptions({
+        renderer: new marked.Renderer(),
+        highlight: function(code) {
+          return hljs.highlightAuto(code).value;
+        },
+        pedantic: false,
+        gfm: true,
+        tables: true,
+        breaks: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+        xhtml: false
+      }
+  );
+
   export default {
-    name:'Editor',
-    data () {
+    name: 'Editor',
+    data() {
       return {
+        isMarked: false,
+        mdHtml: '',
         title: '',
-        tags:'',
-        content:''
+        tags: '',
+        content: ''
+
       }
     },
-    methods:{
+    methods: {
+      preview(){
+        this.isMarked = !this.isMarked
+        if(this.isMarked){
+          this.mdHtml = marked(this.content)
+        }
+      }
+    },
+    computed:{
 
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .content{
+  .content {
     margin: 0 auto;
     box-sizing: border-box;
     border: 1px solid red;
     min-height: 600px;
     min-width: 800px;
   }
-  .input{
+
+  .input {
     margin-top: 5px;
     display: block;
     width: 800px;
   }
-  .title{
+
+  .title {
     margin: 0 auto;
 
   }
-  .tags{
+
+  .tags {
     /*margin: 0 auto;*/
   }
-  .content-body{
+
+  .content-body {
     max-height: 600px;
     height: 300px;
   }
 
-  .publish{
+  .publish {
     border: 1px solid black;
     height: 40px;
     margin-top: 50px;
+  }
+
+  .preview {
+    border: 1px solid salmon;
   }
 </style>
