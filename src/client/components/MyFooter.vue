@@ -8,10 +8,7 @@
             <Icon type="md-ionitron" />
             Ricky
           </span>
-          <i class="Line"></i>
-          <span>
-
-        </span>
+<!--          <i class="Line"></i>-->
         </div>
         <div class="link">
           <p>Powered by Vue & iView | <router-link :to="{name: 'login'}" tag="span" class="login">站长登录</router-link></p>
@@ -45,9 +42,9 @@
     padding: 0 16px;
     margin: 0 auto;
     /*border: 1px solid #FF9E92;*/
-    /*display: flex;*/
+    display: flex;
     height: 100px;
-    /*align-items: center;*/
+    align-items: center;
     /*flex-wrap: wrap*/
 
   }
@@ -58,14 +55,19 @@
     margin-left: 17px;
   }
   .wrapper{
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    margin: 0 auto;
+    >div{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
+
   .copyright{
     /*border: 1px solid #5b6270;*/
   }
   .link{
     /*border: 1px solid #239bf0;*/
+
   }
 </style>
