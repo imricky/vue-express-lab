@@ -7,8 +7,8 @@
         <Input search placeholder="Enter something..." />
       </div>
       <div class="Button">
-        <Button icon="ios-search" class="Login-Button">登录</Button>
-        <Button icon="ios-search" class="Register-Button">注册</Button>
+        <Button icon="md-log-in" class="Login-Button">登录</Button>
+        <Button icon="md-person-add" class="Register-Button">注册</Button>
       </div>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
 <script>
   export default {
-    name: "Header"
+    name: "MyHeader"
   }
 </script>
 
