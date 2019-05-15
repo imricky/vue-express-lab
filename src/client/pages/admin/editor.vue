@@ -62,9 +62,9 @@
         <Divider orientation="left" size="small">正文</Divider>
         <Input v-model="content" class="input content-body" v-if="!isMarked" type="textarea" :rows="14"
                placeholder="Enter something..."/>
-        <div class="preview animated fadeIn content-body" v-if="isMarked" v-html="mdHtml" tabIndex="1" v-focus></div>
+        <div class="preview animated fadeIn content-body" v-if="isMarked" v-html="mdHtml" tabIndex="1"></div>
         <div class="publish">
-          <Button icon="ios-search">发布</Button>
+          <Button icon="ios-search" @click="publish">发布</Button>
           <Button icon="ios-search" @click="preview">预览</Button>
         </div>
       </Content>
@@ -75,8 +75,8 @@
 <script>
   import marked from 'marked'
   import hljs from 'highlight.js'
-  import javascript from 'highlight.js/lib/languages/javascript';
-  import 'highlight.js/styles/monokai-sublime.css';
+  import javascript from 'highlight.js/lib/languages/javascript'
+  import 'highlight.js/styles/monokai-sublime.css'
 
   // marked.setOptions({
   //   renderer: new marked.Renderer(),
@@ -88,8 +88,8 @@
 
   marked.setOptions({
         renderer: new marked.Renderer(),
-        highlight: function(code) {
-          return hljs.highlightAuto(code).value;
+        highlight: function (code) {
+          return hljs.highlightAuto(code).value
         },
         pedantic: false,
         gfm: true,
@@ -100,7 +100,7 @@
         smartypants: false,
         xhtml: false
       }
-  );
+  )
 
   export default {
     name: 'Editor',
@@ -115,16 +115,45 @@
       }
     },
     methods: {
-      preview(){
+      preview() {
         this.isMarked = !this.isMarked
-        if(this.isMarked){
+        if (this.isMarked) {
           this.mdHtml = marked(this.content)
         }
+      },
+      publish() {
+        let htmlContent = this.content
+        let title = this.title
+        let tags = this.tags
+        this.$axios({
+          url: '/api/article/save',
+          method: 'POST',
+          data: {
+            title: this.title,
+            content: this.content,
+            tags: this.tags,
+          },
+        })
+            .then(res => {
+              this.$Message.success({
+                content: '保存成功',
+                onClose: () => {
+                  console.log(res)
+                  // this.$router.push(
+                  //     {
+                  //       path: '/',
+                  //       //params: { userId: '123' } //写了path，param不生效
+                  //     })
+                }
+              })
+            })
+            .catch(e => {
+              this.$Message.error(`保存失败${e}`)
+            })
+
       }
     },
-    computed:{
-
-    }
+    computed: {}
   }
 </script>
 
@@ -165,5 +194,7 @@
 
   .preview {
     border: 1px solid salmon;
+    overflow: auto;
+    max-width: 800px;
   }
 </style>
