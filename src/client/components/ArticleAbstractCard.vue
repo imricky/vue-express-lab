@@ -1,16 +1,16 @@
 <template>
   <div class="list-wrapper">
-<!--    {{articleList}}-->
     <Card v-for="item in articleList" class="article-content" :key="item.title">
       <div class="title">
         <p>{{item.title}}</p>
       </div>
-      <Divider/>
+      <Divider class="article-divider"/>
       <div class="content">
         <p>{{item.content}}</p>
       </div>
       <Row type="flex" justify="start" class="code-row-bg">
         <Col span="4">
+          <Icon type="ios-pricetags-outline" />
           <span class="view-info tags">
             <a href="#"
                v-for="(i,index) in handleTags(item.tags)"
@@ -19,13 +19,15 @@
             <span class="info-dot">•</span>
           </span>
         </Col>
-        <Col span="4">
-          <span class="view-info viewCount" v-if="item.viewCount">
+        <Col span="4" v-if="item.viewCount">
+          <Icon type="ios-eye-outline" />
+          <span class="view-info viewCount" >
             {{item.viewCount}}
             <span class="info-dot">•</span>
           </span>
         </Col>
-        <Col span="4">
+        <Col span="4" v-if="item.commentCount">
+          <Icon type="ios-code-working" />
           <span class="view-info">
             {{item.commentCount}}
             <span class="info-dot">•</span>
@@ -33,12 +35,15 @@
         </Col>
         <Col span="4">
           <span class="view-info">
+            <Icon type="ios-time-outline"/>
             {{item.time}}
             <span class="info-dot">•</span>
           </span>
         </Col>
         <Col span="4">
+          <Icon type="ios-person-outline"/>
           <span class="view-info author">
+
             {{item.author}}
           </span>
         </Col>
@@ -46,7 +51,6 @@
       <div class="info">
 
       </div>
-      <p>{{item.isPublish}}</p>
     </Card>
   </div>
 </template>
@@ -105,20 +109,21 @@
     min-width: 470px;
     /*margin: 0 auto;*/
     > .article-content {
-      margin: 10px;
+      margin: 5px;
       overflow: hidden;
 
-      .list-url {
-        color: #FF9E92;
+      .title {
+        color: #778087
       }
 
-      .title {
-        padding: 0 10px;
+      .article-divider {
+        margin: 10px 0;
       }
 
       .content {
         height: 100px;
-        width: 750px;
+        max-width: 770px;
+        min-width: 350px;
         border: 1px solid red;
       }
 
@@ -130,7 +135,7 @@
         padding: 0 5px;
 
         .info-dot {
-          padding: 0 5px 0 12px;
+          padding: 0 10px;
         }
       }
 
