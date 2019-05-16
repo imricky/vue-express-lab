@@ -1,6 +1,6 @@
 <template>
   <div class="list-wrapper">
-    {{articleList}}
+<!--    {{articleList}}-->
     <Card v-for="item in articleList" class="article-content" :key="item.title">
       <div class="title">
         <p>{{item.title}}</p>
@@ -98,12 +98,15 @@
   .list-wrapper {
     box-sizing: border-box;
     margin: 0 auto;
+    margin-left: 10px;
     background: #eee;
-    padding: 10px;
-    width: 850px;
+    /*padding: 10px;*/
+    max-width: 770px;
+    min-width: 470px;
     /*margin: 0 auto;*/
     > .article-content {
       margin: 10px;
+      overflow: hidden;
 
       .list-url {
         color: #FF9E92;

@@ -1,71 +1,32 @@
 <template>
   <div class="layout">
-    <Layout>
-      <Header>
-        <Menu mode="horizontal" theme="dark" active-name="1">
-          <div class="layout-logo"></div>
-          <div class="search">
-            <Input search enter-button placeholder="Enter something..."/>
-          </div>
-          <div class="layout-nav" v-if="getUsername">
+    <MyHeader/>
+    <div class="sep20"></div>
 
-            <MenuItem name="1">
-              <Icon type="ios-navigate"></Icon>
-              {{username}}
-            </MenuItem>
-            <MenuItem name="3" @click.native="logout">
-              <Icon type="ios-keypad" ></Icon>
-              注销
-            </MenuItem>
-          </div>
-          <div class="layout-nav" v-else>
-            <MenuItem name="1" to="/signin">
-              <Icon type="ios-navigate"></Icon>
-              登录
-            </MenuItem>
-            <MenuItem name="2" to="signup">
-              <Icon type="ios-keypad"></Icon>
-              注册
-            </MenuItem>
-          </div>
-        </Menu>
-      </Header>
-      <Layout>
-        <Sider hide-trigger class="sider">
-          <div class="demo-avatar">
-            <Avatar shape="square" icon="ios-person" size="large"/>
-            <Avatar shape="square" icon="ios-person"/>
-            <Avatar shape="square" icon="ios-person" size="small"/>
-          </div>
-          <div class="tags">
-            <Tag color="default">default</Tag>
-            <Tag color="primary">primary</Tag>
-            <Tag color="success">success</Tag>
-            <Tag color="error">error</Tag>
-            <Tag color="warning">warning</Tag>
-            <Tag color="magenta">magenta</Tag>
-            <Tag color="red">red</Tag>
-          </div>
-        </Sider>
-        <Layout class="content-wrapper">
-          <Content class="content">
-            <ArticleAbstractCard/>
-          </Content>
-        </Layout>
+    <div class="box">
+      <div class="sider">
+        <MySider/>
+      </div>
+      <ArticleAbstractCard/>
+    </div>
 
-      </Layout>
-      <Footer class="layout-footer-center">2019 &copy; imricky</Footer>
-    </Layout>
+    <MyFooter/>
   </div>
 </template>
 
 <script>
+  import MyHeader from '../components/MyHeader'
+  import MyFooter from '../components/MyFooter'
+  import MySider from '../components/MySider'
   import ArticleAbstractCard from "../components/ArticleAbstractCard"
   import jwt from 'jsonwebtoken'
 
   export default {
     name: "Main",
     components: {
+      MyFooter,
+      MyHeader,
+      MySider,
       ArticleAbstractCard
     },
     data() {
@@ -120,73 +81,22 @@
 </script>
 
 <style scoped lang="scss">
-  .layout {
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
+  .box {
     position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .layout-logo {
-    width: 100px;
-    height: 30px;
-    background: #5b6270;
-    border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 15px;
-    left: 20px;
-  }
-
-  .search {
-    width: 200px;
-    height: 30px;
-    border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 13px;
-    left: 60px;
-
-    > .search-button {
-      float: left;
-      position: relative;
-      left: 205px;
-      bottom: 45px;
-
-    }
-  }
-
-  .content-wrapper {
-    padding: 0 24px 24px;
-
-    > .content {
-      padding: 24px;
-      min-height: 550px;
-      background: #fff
-    }
-  }
-
-  .layout-nav {
-    width: 420px;
+    max-width: 1100px;
+    min-width: 600px;
+    padding: 0 16px;
     margin: 0 auto;
-    margin-right: 20px;
+    border: 1px solid #FF9E92;
+    display: flex;
+    /*align-items: center;*/
   }
 
-  .sider {
-    background: #fff;
-    minHeight: '380px'
+  .sep20 {
+    height: 20px;
+
   }
 
-  .content-container {
-    padding: '0 24px 24px';
-  }
 
-  .layout-footer-center {
-    text-align: center;
-    /*position: fixed;*/
-    /*bottom: 0px;*/
-    /*width: 100%;*/
-  }
 </style>
 

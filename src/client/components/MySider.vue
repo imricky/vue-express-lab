@@ -44,6 +44,7 @@
     width: 270px;
     border: 1px solid red;
     min-height: 400px;
+    margin-right: 20px;
   }
   .author-image{
     display: block;

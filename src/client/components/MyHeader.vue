@@ -22,6 +22,7 @@
 
 <style scoped lang="scss">
   #Top{
+
     text-align: center;
     background-color: #fff;
     height: 44px;
@@ -30,6 +31,7 @@
     background-size: 44px 44px;
     border-bottom: 1px solid rgba(0,0,0,.22);
     padding: 0 20px 0 20px;
+
   }
   .Content{
     position: relative;
@@ -68,7 +70,7 @@
       margin-right: 20px;
     }
     .Register-Button{
-      margin-right: 40px;
+      /*margin-right: 40px;*/
     }
   }
 </style>
