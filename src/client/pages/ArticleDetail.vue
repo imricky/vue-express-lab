@@ -13,8 +13,8 @@
 
         </div>
         <div class="show-content">
-          <mavon-editor v-model="value"
-                        v-html="value"
+          <mavon-editor v-model="content"
+                        v-html="content"
                         :subfield="false"
                         :toolbarsFlag="false"
                         :boxShadow="false"
@@ -28,31 +28,6 @@
 </template>
 
 <script>
-
-  //1.vue-showdown
-  // // 作为 Vue 插件引入
-  // import Vue from 'vue'
-  // import VueShowdown from 'vue-showdown'
-  //
-  // // Vue.use() 的第二个参数是可选的
-  // Vue.use(VueShowdown, {
-  //   // 设置 showdown 默认 flavor
-  //   flavor: 'github',
-  //   // 设置 showdown 默认 options （会覆盖上面 flavor 的 options）
-  //   options: {
-  //     emoji: false,
-  //   },
-  // })
-
-  // 2.mavon-editor
-  // 全局注册
-  // import with ES6
-  import Vue from 'vue'
-  import mavonEditor from 'mavon-editor'
-  import 'mavon-editor/dist/css/index.css'
-  // use
-  Vue.use(mavonEditor)
-
   import marked from 'marked'
 
   import MyHeader from '../components/MyHeader'
@@ -68,35 +43,29 @@
     },
     data() {
       return {
-        value:''
+        content: ''
       }
     },
     created() {
       this.getInfo()
     },
-    computed:{
-    },
+    computed: {},
     methods: {
       changeData(value, render) {
         console.log(render)
       },
-      getInfo(aid) {
-        this.$axios({
+
+      async getInfo(aid) {
+        let res = await this.$axios({
           url: '/api/article/getInfo',
           method: 'POST',
           data: {
             _id: '5cdb7d2ef71b1a6bcd777d78'
           }
         })
-            .then(function (res) {
-              let content = res.data.data.content
-              let mdContent = marked(content)
-
-            })
-            .catch(e => {
-              console.log(e)
-            })
+        this.content = marked(res.data.data.content)
       }
+
     }
   }
 </script>
@@ -137,7 +106,7 @@
 
     .show-content {
       border: 1px solid sienna;
-      height: 600px;
+      min-height: 600px;
       margin: 10px;
     }
   }
