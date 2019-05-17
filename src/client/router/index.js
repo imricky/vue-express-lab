@@ -6,11 +6,19 @@ import SignIn from '../pages/login/signin'
 import SignUp from '../pages/login/signup'
 import Main from '../pages/Main'
 import NotFound from '../pages/404/404'
+import ArticleDetail from '../pages/ArticleDetail'
 import Editor from '../pages/admin/editor'
+import MyHeader from '../components/MyHeader'
+import MyFooter from '../components/MyFooter'
+import MySider from '../components/MySider'
 
 const routes = [
   //{path: '/', component: Main},
-  {path: '/', component: Editor},
+  //{path: '/', component: Editor},
+  //{path: '/', component: MyHeader},
+  // {path: '/', component: MyFooter},
+  // {path: '/', component: MySider},
+  {path: '/', component: ArticleDetail},
   {path: '/signin', component: SignIn},
   {path: '/signup', component: SignUp},
 

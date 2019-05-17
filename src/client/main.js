@@ -5,8 +5,10 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import router from './router'
 import './common/js/interceptor'
-
-
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// use
+Vue.use(mavonEditor)
 Vue.use(iView);
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
