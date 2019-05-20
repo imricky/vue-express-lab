@@ -46,8 +46,8 @@ router.post('/save', (req, res, next) => {
 })
 
 router.post('/getInfo', (req, res, next) => {
-  let id = req.body._id
-  ArticleService.getInfo(id)
+  let aid = req.body.aid
+  ArticleService.getInfo(aid)
       .then((data) => {
         res.json({
           data
@@ -63,8 +63,8 @@ router.post('/getInfo', (req, res, next) => {
 })
 
 router.post('/delete', (req, res, next) => {
-  let id = req.body._id
-  ArticleService.delete(id)
+  let aid = req.body.aid
+  ArticleService.delete(aid)
       .then((data) => {
         res.json({
           success: true,

@@ -14,13 +14,13 @@ class ArticleService {
     return res
   }
 
-  static async getInfo(id) {
-    const article = await Article.ArticleMethods.getInfo(id)
+  static async getInfo(aid) {
+    const article = await Article.ArticleMethods.getInfo(aid)
     return article
   }
 
-  static async delete(id) {
-    const deleteCount = await Article.ArticleMethods.delete(id)
+  static async delete(aid) {
+    const deleteCount = await Article.ArticleMethods.delete(aid)
     return deleteCount
   }
 }

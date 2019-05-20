@@ -64,13 +64,13 @@ class ArticleMethods {
   }
 
   //获取单条文章信息
-  static async getInfo(id) {
-    return await articleModel.findById({_id: id})
+  static async getInfo(aid) {
+    return await articleModel.findOne({aid: aid})
   }
 
   //删除文章
-  static async delete(id) {
-    let res = await articleModel.findByIdAndDelete({_id: id})
+  static async delete(aid) {
+    let res = await articleModel.remove({aid: aid})
     return res
   }
 
