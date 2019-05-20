@@ -29,7 +29,6 @@ router.post('/save', (req, res, next) => {
     isPublish: req.body.isPublish//是否发布
 
   }
-
   ArticleService.save(article)
       .then((data) => {
         res.json({
@@ -41,7 +40,7 @@ router.post('/save', (req, res, next) => {
         logger.error(e)
         res.json({
           success: false,
-          errorMessage: e
+          errorMessage: e.message
         })
       })
 })

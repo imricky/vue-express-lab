@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const logger = require('../middlewares/logger/logger')
+const Sequence = require('../middlewares/db/sequence')
 
 const articleSchema = new Schema({
   aid: {type: Number, index: {unique: true}}, //文章唯一id,用作主键
@@ -8,11 +9,27 @@ const articleSchema = new Schema({
   content: String,//文章内容
   viewCount: Number,//浏览次数
   commentCount: Number,//评论次数
-  time: String,//发表时间
   coverImg: String,//封面图片
   author: String,//作者
-  tags: String,//标签
-  isPublish: Boolean//是否发布
+  tags: [String],//标签
+  isPublish: Boolean,//是否发布
+  updated: { type: Date, default: Date.now },
+  created: { type: Date, default: Date.now }
+})
+
+//在创建文档时，获取自增ID值
+articleSchema.pre('save', function(next) {
+  var self = this
+  if( self.isNew ) {
+    Sequence.increment('articleModel',function (err, result) {
+      if (err)
+        throw err;
+      self.aid = result.value.next;
+      next()
+    })
+  } else {
+    next()
+  }
 })
 
 const articleModel = mongoose.model('article', articleSchema)
@@ -35,7 +52,6 @@ class ArticleMethods {
   static async save(article) {
     try {
       //标题必须是唯一的
-      let title = article.title
       let res = await new articleModel(article).save()
       logger.info(res)
       return res
