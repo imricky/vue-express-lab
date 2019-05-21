@@ -13,10 +13,10 @@
         <Button icon="md-person-add" class="Register-Button">注册</Button>
       </div>
       <div class="Button" v-else>
-        <router-link to="/signin">
+        <router-link :to="'/member/'+username">
           <Button icon="md-log-in" class="Login-Button">{{username}}</Button>
         </router-link>
-        <Button icon="md-person-add" class="Register-Button" @click="logout">注销</Button>
+        <Button icon="md-person-add" class="Register-Button" @click="logout">登出</Button>
       </div>
     </div>
   </div>
