@@ -14,6 +14,12 @@ class ArticleService {
     return res
   }
 
+  static async update(aid,article) {
+    const res = await Article.ArticleMethods.update(aid,article)
+    return res
+  }
+
+
   static async getInfo(aid) {
     const article = await Article.ArticleMethods.getInfo(aid)
     return article

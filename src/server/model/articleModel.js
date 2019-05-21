@@ -48,7 +48,7 @@ class ArticleMethods {
     return await articleModel.find({})
   }
 
-  //添加and修改文章
+  //添加文章
   static async save(article) {
     try {
       //标题必须是唯一的
@@ -61,6 +61,19 @@ class ArticleMethods {
       throw new Error(e.message)
     }
 
+  }
+
+  static async update(aid,article){
+    try {
+      //标题必须是唯一的
+      let res = await articleModel.update({aid:aid},article)
+      logger.info(res)
+      return res
+    } catch (e) {
+      console.log(e)
+      logger.error(`错误${e}`)
+      throw new Error(e.message)
+    }
   }
 
   //获取单条文章信息

@@ -45,6 +45,33 @@ router.post('/save', (req, res, next) => {
       })
 })
 
+
+router.patch('/:aid', (req, res, next) => {
+  const aid = req.params.aid
+  let article = {
+    title: req.body.title,
+    content: req.body.content,
+    updated:Date.now(),
+    tags: req.body.tags,//标签
+    isPublish: true//是否发布
+
+  }
+  ArticleService.update(aid,article)
+      .then((data) => {
+        res.json({
+          success: true,
+          data
+        })
+      })
+      .catch(e => {
+        logger.error(e)
+        res.json({
+          success: false,
+          errorMessage: e.message
+        })
+      })
+})
+
 router.post('/getInfo', (req, res, next) => {
   let aid = req.body.aid
   ArticleService.getInfo(aid)
