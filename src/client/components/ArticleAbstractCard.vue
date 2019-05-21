@@ -101,6 +101,7 @@
 <style scoped lang="scss">
   .list-wrapper {
     box-sizing: border-box;
+    border: 3px solid rebeccapurple;
     margin: 0 auto;
     margin-left: 10px;
     background: #eee;
@@ -124,6 +125,7 @@
         height: 100px;
         max-width: 770px;
         min-width: 350px;
+        width: 770px;
         border: 1px solid red;
       }
 
