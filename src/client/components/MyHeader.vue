@@ -1,7 +1,7 @@
 <template>
   <div id="Top">
     <div class="Content">
-      <div class="Logo"></div>
+      <div class="Logo" @click="backToHome"></div>
       <i class="Line"></i>
       <div class="Search">
         <Input search placeholder="Enter something..." />
@@ -16,7 +16,17 @@
 
 <script>
   export default {
-    name: "MyHeader"
+    name: "MyHeader",
+    data(){
+      return {
+
+      }
+    },
+    methods:{
+      backToHome(){
+        this.$router.push({path: '/'})
+      }
+    }
   }
 </script>
 
@@ -51,6 +61,7 @@
     border-radius: 3px;
     float: left;
     position: relative;
+    cursor:pointer
   }
   .Line{
     height: 29px;

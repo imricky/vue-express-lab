@@ -10,8 +10,16 @@
         <h1 class="title">
           {{article.title}}
         </h1>
-        <div class="author">
-          {{article.author}}
+        <div class="article-info">
+          <span class="article-detail author">
+            {{article.author}}
+          </span>
+          <span class="article-detail created-time">
+            {{article.created}}
+          </span>
+          <span class="article-detail update-time">
+            {{article.updated}}
+          </span>
         </div>
         <div class="show-content">
           <mavon-editor v-model="article.content"
@@ -57,7 +65,7 @@
         console.log(render)
       },
 
-      async getInfo(aid) {
+      async getInfo() {
         let res = await this.$axios({
           url: '/api/article/getInfo',
           method: 'POST',
@@ -104,10 +112,21 @@
       padding-left: 10px;
     }
 
-    .author {
+    .article-info {
       border: 1px solid #2c3e50;
-      height: 80px;
+      height: 40px;
       /*width: auto;*/
+    }
+    .article-detail{
+      /*display: flex;*/
+      border: 1px solid #2c3e50;
+      line-height: 20px;
+      display: inline-block;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 10px;
+
     }
 
     .show-content {
