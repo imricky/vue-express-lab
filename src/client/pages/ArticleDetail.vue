@@ -1,6 +1,7 @@
 <template>
   <div>
     <MyHeader/>
+    <div class="sep20"></div>
     <div class="box">
       <div class="sider">
         <MySider/>
@@ -71,6 +72,9 @@
 </script>
 
 <style scoped lang="scss">
+  .sep20 {
+    height: 20px;
+  }
   .box {
     position: relative;
     max-width: 1100px;
