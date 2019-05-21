@@ -8,14 +8,14 @@
       </div>
       <div class="post">
         <h1 class="title">
-          标题
+          {{article.title}}
         </h1>
         <div class="author">
-
+          {{article.author}}
         </div>
         <div class="show-content">
-          <mavon-editor v-model="content"
-                        v-html="content"
+          <mavon-editor v-model="article.content"
+                        v-html="article.content"
                         :subfield="false"
                         :toolbarsFlag="false"
                         :boxShadow="false"
@@ -44,7 +44,8 @@
     },
     data() {
       return {
-        content: ''
+        aid:this.$route.params.aid,
+        article:{}
       }
     },
     created() {
@@ -61,10 +62,11 @@
           url: '/api/article/getInfo',
           method: 'POST',
           data: {
-            _id: '5cdb7d2ef71b1a6bcd777d78'
+            aid: this.aid
           }
         })
-        this.content = marked(res.data.data.content)
+        this.article = res.data.data
+        this.article.content = marked(res.data.data.content)
       }
 
     }

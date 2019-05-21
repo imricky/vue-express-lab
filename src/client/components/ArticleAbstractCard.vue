@@ -2,7 +2,9 @@
   <div class="list-wrapper">
     <Card v-for="item in articleList" class="article-content" :key="item.title">
       <div class="title">
-        <p>{{item.title}}</p>
+        <router-link :to="'/article/'+item.aid">
+          <p>{{item.title}}</p>
+        </router-link>
       </div>
       <Divider class="article-divider"/>
       <div class="content">
