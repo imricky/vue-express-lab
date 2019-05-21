@@ -7,21 +7,46 @@ import SignUp from '../pages/login/signup'
 import Main from '../pages/Main'
 import NotFound from '../pages/404/404'
 import ArticleDetail from '../pages/ArticleDetail'
+import Member from '../pages/admin/member'
+import BasicSetting from '../pages/admin/BasicSetting'
+import ArticleManage from '../pages/admin/ArticleManage'
+
 import Editor from '../pages/admin/editor'
 import MyHeader from '../components/MyHeader'
 import MyFooter from '../components/MyFooter'
 import MySider from '../components/MySider'
 
 const routes = [
-  //{path: '/', component: Main},
+  {path: '/', component: Main},
   //{path: '/', component: Editor},
   //{path: '/', component: MyHeader},
   // {path: '/', component: MyFooter},
   // {path: '/', component: MySider},
-  {path: '/', component: ArticleDetail},
+  // {path: '/', component: ArticleDetail},
   {path: '/signin', component: SignIn},
   {path: '/signup', component: SignUp},
-
+  {
+    path:'/article/:aid',
+    component:ArticleDetail
+  },
+  {
+    path:'/member/:username',
+    component:Member,
+    children: [
+      {
+        // 当 /user/:id/profile 匹配成功，
+        // UserProfile 会被渲染在 User 的 <router-view> 中
+        path: 'setting',
+        component: BasicSetting
+      },
+      {
+        // 当 /user/:id/posts 匹配成功
+        // UserPosts 会被渲染在 User 的 <router-view> 中
+        path: 'articleManage',
+        component: ArticleManage
+      }
+    ]
+  },
   {
     name: '404',
     path: '/404',
@@ -38,12 +63,16 @@ const routes = [
 // 你还可以传别的配置参数, 不过先这么简单着吧。
 const router = new VueRouter({
   // mode:'history', //去掉url中的#
-  routes // (缩写) 相当于 routes: routes
+  routes, // (缩写) 相当于 routes: routes
+  scrollBehavior (to, from, savedPosition) {
+    // return 期望滚动到哪个的位置
+    return { x: 0, y: 0 }
+  }
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
+  // console.log(to)
+  // console.log(from)
   next()
   // if(getToken()){
   //   //登录后将导向/login路由重定向到主页面

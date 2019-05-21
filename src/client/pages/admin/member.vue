@@ -6,13 +6,13 @@
     <div class="layout">
       <Layout>
         <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
-          <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
-            <MenuItem name="1-1">
-              <Icon type="ios-navigate"></Icon>
+          <Menu active-name="basic-setting" theme="light" width="auto" :class="menuitemClasses">
+            <MenuItem name="basic-setting" :to="'/member/'+username+'/setting'">
+              <Icon type="ios-settings-outline" />
               <span>基本设置</span>
             </MenuItem>
-            <MenuItem name="1-2">
-              <Icon type="ios-search"></Icon>
+            <MenuItem name="article-manage" :to="'/member/'+username+'/articleManage'">
+              <Icon type="ios-list-box-outline" />
               <span>文章管理</span>
             </MenuItem>
             <MenuItem name="1-3">
@@ -24,7 +24,7 @@
         </Sider>
         <Layout>
           <Content class="content">
-            Content
+            <router-view></router-view>
           </Content>
         </Layout>
       </Layout>
@@ -38,6 +38,7 @@
   import MyHeader from '../../components/MyHeader'
   import MyFooter from '../../components/MyFooter'
   import MySider from '../../components/MySider'
+
 
   export default {
     name: "member",
@@ -73,7 +74,7 @@
 <style scoped lang="scss">
   .layout{
     border: 1px solid #d7dde4;
-    background: #f5f7f9;
+    /*background: #f5f7f9;*/
     position: relative;
     border-radius: 4px;
     overflow: hidden;
@@ -112,7 +113,7 @@
   }
 
   .content{
-    margin: 20px;
+    margin: 10px;
     background: #fff;
     min-height: 525px;
   }
