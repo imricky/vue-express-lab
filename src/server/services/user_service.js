@@ -14,6 +14,11 @@ class UserService {
     return created
   }
 
+  static async update(_id,user) {
+    const res = await User.UserMethods.update(_id,user)
+    return res
+  }
+
   static async getOneById(userId) {
     const user = await User.UserMethods.getOneById(userId)
     return user

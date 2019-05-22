@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const logger = require('../middlewares/logger/logger')
+const _ = require('lodash')
 
 const userSchema = new Schema({
   // id: {type: Schema.Types.ObjectId, required: true, index: true},
@@ -29,12 +30,9 @@ class UserMethods {
 
 
   static async save(user) {
-    let usernameDup = await UserModel.find({
-      username: user.username
-    })
-    console.log(usernameDup)
-    if (usernameDup.length !== 0) {
-      throw new Error(`${user.username}已经被占用了，请再找一个吧~`)
+    let isExistDupUsername = await this.isDupUsername(user.username)
+    if(isExistDupUsername === false){
+      throw new Error(`${user.username}  已经被占用了，请再找一个吧~`)
     }
     try {
       let res = await new UserModel(user).save()
@@ -47,10 +45,13 @@ class UserMethods {
     }
   }
 
-  static async update(id, user) {
+  static async update(_id, user) {
+    let isExistDupUsername = await this.isDupUsername(user.username)
+    if(isExistDupUsername === false){
+      throw new Error(`${user.username}  已经被占用了，请再找一个吧~`)
+    }
     try {
-      //标题必须是唯一的
-      let res = await UserModel.update({id: id}, user)
+      let res = await UserModel.update({_id: _id}, user)
       logger.info(res)
       return res
     } catch (e) {
@@ -76,6 +77,12 @@ class UserMethods {
     return users
   }
 
+  static async isDupUsername(username){
+    let usernameDup = await UserModel.find({
+      username: username
+    })
+    return _.isEmpty(usernameDup);
+  }
 }
 
 module.exports = {

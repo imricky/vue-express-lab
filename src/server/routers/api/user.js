@@ -99,6 +99,34 @@ router.post('/login', (req, res, next) => {
       })
 })
 
+router.patch('/:_id', (req, res, next) => {
+  const _id = req.params._id
+  const cipher = pbkdf2Sync(req.body.password, 'ashdjkaqkjwjehasd', 10000, 512, 'sha256')
+  let user = {
+    username:req.body.username,
+    password:cipher.toString('hex'),
+    phone:req.body.phone,
+    email:req.body.email,
+    remark:req.body.remark,
+    updated:Date.now()
+  }
+  UserService.update(_id,user)
+      .then((data) => {
+        res.json({
+          success: true,
+          data
+        })
+      })
+      .catch(e => {
+        logger.error(e)
+        res.json({
+          success: false,
+          errorMessage: e.message
+        })
+      })
+})
+
+
 
 /*
  *  author: imricky
