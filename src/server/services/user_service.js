@@ -9,8 +9,8 @@ class UserService {
     return user
   }
 
-  static async insertUser(user) {
-    const created = await User.UserMethods.insert(user)
+  static async save(user) {
+    const created = await User.UserMethods.save(user)
     return created
   }
 

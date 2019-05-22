@@ -32,6 +32,7 @@ const routes = [
   {
     path:'/member/:username',
     component:Member,
+    redirect: '/member/:username/setting',
     children: [
       {
         // 当 /user/:id/profile 匹配成功，

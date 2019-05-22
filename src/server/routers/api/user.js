@@ -4,6 +4,7 @@ const {UserService} = require('../../services/user_service')
 const logger = require('../../middlewares/logger/logger')
 const pbkdf2Sync = require('crypto').pbkdf2Sync
 const jwt = require('jsonwebtoken')
+const _ = require('lodash')
 // const bluebird = require('bluebird')
 // const pbkdf2Async = bluebird.promisify(crypto.pbkdf2);
 /*
@@ -12,35 +13,27 @@ const jwt = require('jsonwebtoken')
  *  function: 用户注册
 */
 router.post('/register', (req, res, next) => {
-  const username = req.body.username
-  const tokenUser = {
-    username
+  const cipher = pbkdf2Sync(req.body.password, 'ashdjkaqkjwjehasd', 10000, 512, 'sha256')
+  let user = {
+    username:req.body.username,
+    password:cipher.toString('hex'),
+    phone:req.body.phone,
+    email:req.body.email,
+    remark:req.body.remark,
   }
-  UserService.getOneByName(username)
-      .then((user) => {
-        const cipher = pbkdf2Sync(req.body.password, 'ashdjkaqkjwjehasd', 10000, 512, 'sha256')
-        if (user === null) {
-          const insertInfo = {
-            username: req.body.username,
-            password: cipher.toString('hex'),
-            //password: req.body.password,
-            email: req.body.email,
-            remarks: req.body.remarks
-          }
-          UserService.insertUser(insertInfo).then((doc) => {
-            logger.info(`用户注册成功：${doc} `)
-            res.json({success: true, data: doc})
-          }, (err) => {
-            logger.error(err)
-            res.json({success: false, errMessage: err})
-          })
-        } else {
-          logger.info(`该用户名已存在:${username}`)
-          res.json({success: false, errMessage: `该用户名已存在`})
-        }
-
-      }, () => {
-        res.json({success: false, errMessage: `数据库操作失败`})
+  UserService.save(user)
+      .then((data)=>{
+        res.json({
+          success: true,
+          data
+        })
+      })
+      .catch(e=>{
+        logger.error(e)
+        res.json({
+          success: false,
+          errorMessage: e.message
+        })
       })
 
 })
@@ -53,6 +46,13 @@ router.post('/register', (req, res, next) => {
 router.post('/login', (req, res, next) => {
   const username = req.body.username
   const password = req.body.password
+  if(_.isEmpty(username) || _.isEmpty(password)){
+    res.json({
+      success: false,
+      errMessage: `用户名或密码为空`
+    })
+    return
+  }
   const tokenObj = {
     username: req.body.username,
   }
@@ -68,10 +68,10 @@ router.post('/login', (req, res, next) => {
         }
         const cipher = pbkdf2Sync(password, 'ashdjkaqkjwjehasd', 10000, 512, 'sha256')
         if (username !== user.username || cipher.toString('hex') !== user.password) {
-          logger.error('用户名或密码错误')
+          logger.error('密码错误')
           res.json({
             success: false,
-            errMessage: `用户名或密码错误`
+            errMessage: `密码错误`
           })
           return
         }
@@ -94,8 +94,8 @@ router.post('/login', (req, res, next) => {
         res.json({success: false, errMessage: `数据库操作失败${err}`})
       })
       .catch(e=>{
-        //res.json({success: false, errMessage: `数据库操作失败${e}`})
         logger.error(`catch到了${e}`)
+        res.json({success: false, errMessage: `数据库操作失败${e}`})
       })
 })
 

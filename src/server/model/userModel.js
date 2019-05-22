@@ -3,11 +3,15 @@ const Schema = mongoose.Schema
 const logger = require('../middlewares/logger/logger')
 
 const userSchema = new Schema({
-  username: String,
+  id: {type: Schema.Types.ObjectId, required: true, index: true},
+  username: {type: String, required: true, unique: true},
   password: String,
   email: String,
-  reg_date: {type: Date, default: Date.now},
-  remarks: String
+  phone: Number,
+  updated: {type: Date, default: Date.now},
+  created: {type: Date, default: Date.now},
+  remark: String,
+  status: {type: Number, default: 1}, //用户状态，1代表在线，2代表删除
   // comments: [{ body: String, date: Date }],
   // date: { type: Date, default: Date.now },
   // hidden: Boolean,
@@ -24,8 +28,37 @@ class UserMethods {
   }
 
 
-  static async insert(user) {
-    return await UserModel.create(user)
+  static async save(user) {
+    let usernameDup = await UserModel.find({
+      username: user.username
+    })
+    console.log(usernameDup)
+    if (usernameDup.length !== 0) {
+      throw new Error(`${user.username}已经被占用了，请再找一个吧~`)
+    }
+    try {
+      user.id =new mongoose.Types.ObjectId
+      let res = await new UserModel(user).save()
+      logger.info(res)
+      return res
+    } catch (e) {
+      console.log(e)
+      logger.error(`错误${e}`)
+      throw new Error(e.message)
+    }
+  }
+
+  static async update(id, user) {
+    try {
+      //标题必须是唯一的
+      let res = await UserModel.update({id: id}, user)
+      logger.info(res)
+      return res
+    } catch (e) {
+      console.log(e)
+      logger.error(`错误${e}`)
+      throw new Error(e.message)
+    }
   }
 
   static async getOneById(id) {
