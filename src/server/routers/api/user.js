@@ -122,11 +122,19 @@ router.get('/listAll', (req, res, next) => {
 router.post('/find', (req, res, next) => {
   const username = req.body.username
   UserService.getOneByName(username)
-      .then((re) => {
-        res.json({
-          message: '1',
-          data: re
-        })
+      .then((data) => {
+        if(_.isEmpty(data)){
+          res.json({
+            success: false,
+            errMessage: `${username} 没有找到`
+          })
+        }else {
+          res.json({
+            success: true,
+            data
+          })
+        }
+
       })
 })
 

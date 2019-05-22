@@ -3,11 +3,11 @@ const Schema = mongoose.Schema
 const logger = require('../middlewares/logger/logger')
 
 const userSchema = new Schema({
-  id: {type: Schema.Types.ObjectId, required: true, index: true},
+  // id: {type: Schema.Types.ObjectId, required: true, index: true},
   username: {type: String, required: true, unique: true},
   password: String,
   email: String,
-  phone: Number,
+  phone: String,
   updated: {type: Date, default: Date.now},
   created: {type: Date, default: Date.now},
   remark: String,
@@ -37,7 +37,6 @@ class UserMethods {
       throw new Error(`${user.username}已经被占用了，请再找一个吧~`)
     }
     try {
-      user.id =new mongoose.Types.ObjectId
       let res = await new UserModel(user).save()
       logger.info(res)
       return res
