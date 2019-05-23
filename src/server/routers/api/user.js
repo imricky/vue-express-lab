@@ -101,14 +101,17 @@ router.post('/login', (req, res, next) => {
 
 router.patch('/:_id', (req, res, next) => {
   const _id = req.params._id
-  const cipher = pbkdf2Sync(req.body.password, 'ashdjkaqkjwjehasd', 10000, 512, 'sha256')
+
   let user = {
     username:req.body.username,
-    password:cipher.toString('hex'),
     phone:req.body.phone,
     email:req.body.email,
     remark:req.body.remark,
     updated:Date.now()
+  }
+  if(req.body.password){
+    const cipher = pbkdf2Sync(req.body.password, 'ashdjkaqkjwjehasd', 10000, 512, 'sha256')
+    user.password = cipher.toString('hex')
   }
   UserService.update(_id,user)
       .then((data) => {
@@ -148,6 +151,25 @@ router.get('/listAll', (req, res, next) => {
 
 
 router.post('/find', (req, res, next) => {
+  const username = req.body.username
+  UserService.getOneByName(username)
+      .then((data) => {
+        if(_.isEmpty(data)){
+          res.json({
+            success: false,
+            errMessage: `${username} 没有找到`
+          })
+        }else {
+          res.json({
+            success: true,
+            data
+          })
+        }
+
+      })
+})
+
+router.post('/getInfo', (req, res, next) => {
   const username = req.body.username
   UserService.getOneByName(username)
       .then((data) => {

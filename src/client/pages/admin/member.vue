@@ -9,7 +9,7 @@
           <Menu active-name="basic-setting" theme="light" width="auto" :class="menuitemClasses">
             <MenuItem name="basic-setting" :to="'/member/'+username+'/setting'">
               <Icon type="ios-settings-outline" />
-              <span>基本设置</span>
+              <span>用户设置</span>
             </MenuItem>
             <MenuItem name="article-manage" :to="'/member/'+username+'/articleManage'">
               <Icon type="ios-list-box-outline" />
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import MyHeader from '../../components/MyHeader'
   import MyFooter from '../../components/MyFooter'
   import MySider from '../../components/MySider'
@@ -50,6 +51,7 @@
     data() {
       return {
         username:this.$route.params.username,
+        _id:'',
         isCollapsed: false
       }
     },
@@ -61,12 +63,33 @@
         ]
       }
     },
-    methods: {},
+    methods: {
+      async getUserInfo(){
+        let user = await this.$axios({
+          url: '/api/user/getInfo',
+          method: 'POST',
+          data: {
+            username: this.username
+          }
+        })
+        console.log(user.data.data)
+        if(!_.isEmpty(user)){
+          let _id = user.data.data
+        }
+      }
+    },
     created() {
-
+      // this.getUserInfo()
     },
     mounted() {
 
+    },
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      '$route'(to, from) {
+        console.log(to)
+        console.log(from)
+      }
     },
   }
 </script>
