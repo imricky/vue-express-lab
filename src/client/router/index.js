@@ -17,34 +17,53 @@ import MyFooter from '../components/MyFooter'
 import MySider from '../components/MySider'
 
 const routes = [
-  {path: '/', component: Main},
+  {
+    path: '/',
+    name: 'Main',
+    component: Main
+  },
   //{path: '/', component: Editor},
   //{path: '/', component: MyHeader},
   // {path: '/', component: MyFooter},
   // {path: '/', component: MySider},
   // {path: '/', component: ArticleDetail},
-  {path: '/signin', component: SignIn},
-  {path: '/signup', component: SignUp},
   {
-    path:'/article/:aid',
-    component:ArticleDetail
+    path: '/signin',
+    name: 'signIn',
+    component: SignIn
   },
   {
-    path:'/member/:username',
-    component:Member,
+    path: '/signUp',
+    name: 'signup',
+    component: SignUp
+  },
+  {
+    path: '/article/:aid',
+    name: 'articleDetail',
+    component: ArticleDetail
+  },
+  {
+    path: '/member/:username',
+    component: Member,
+    name: 'member',
     redirect: '/member/:username/setting',
     children: [
       {
         // 当 /user/:id/profile 匹配成功，
         // UserProfile 会被渲染在 User 的 <router-view> 中
         path: 'setting',
+        name: 'setting',
         component: BasicSetting
       },
       {
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'articleManage',
+        name: 'ArticleManage',
         component: ArticleManage
+      },
+      {
+        path: 'editor',
+        name: 'editor',
+        component: Editor
       }
     ]
   },
@@ -65,9 +84,9 @@ const routes = [
 const router = new VueRouter({
   // mode:'history', //去掉url中的#
   routes, // (缩写) 相当于 routes: routes
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     // return 期望滚动到哪个的位置
-    return { x: 0, y: 0 }
+    return {x: 0, y: 0}
   }
 })
 
