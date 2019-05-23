@@ -46,12 +46,12 @@ class UserMethods {
   }
 
   static async update(_id, user) {
-    let isExistDupUsername = await this.isDupUsername(user.username)
-    if(isExistDupUsername === false){
-      throw new Error(`${user.username}  已经被占用了，请再找一个吧~`)
-    }
+    // let isExistDupUsername = await this.isDupUsername(user.username)
+    // if(isExistDupUsername === false){
+    //   throw new Error(`${user.username}  已经被占用了，请再找一个吧~`)
+    // }
     try {
-      let res = await UserModel.update({_id: _id}, user)
+      let res = await UserModel.updateOne({_id: _id}, user)
       logger.info(res)
       return res
     } catch (e) {
@@ -67,6 +67,10 @@ class UserMethods {
 
   static async getOneByName(username) {
     return await UserModel.findOne({username})
+  }
+
+  static async getInfo(_id) {
+    return await UserModel.findOne({_id:_id})
   }
 
   static async list(params) {

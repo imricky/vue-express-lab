@@ -30,6 +30,7 @@
     data() {
       return {
         username: '',
+        _id:''
       }
     },
     computed: {
@@ -48,12 +49,20 @@
       backToHome() {
         this.$router.push({path: '/'})
       },
-      getUsername() {
+      async getUsername() {
         let token = window.localStorage.getItem('jwt_token')
         if (token) {
           let userInfo = jwt.decode(token)
           console.log('执行了')
-          this.username = userInfo.username
+          this._id = userInfo._id
+          let res = await this.$axios({
+            url: '/api/user/getInfo',
+            method: 'POST',
+            data: {
+              _id: userInfo._id
+            }
+          })
+          this.username = res.data.data.username
         }
       },
       //注销

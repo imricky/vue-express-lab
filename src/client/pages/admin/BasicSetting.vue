@@ -25,6 +25,7 @@
 </template>
 
 <script>
+  import jwt from 'jsonwebtoken'
   export default {
     name: "BasicSetting",
     data() {
@@ -57,11 +58,16 @@
     computed: {},
     methods: {
       async getUserInfo() {
+        let token = window.localStorage.getItem('jwt_token')
+        let jwtUser
+        if (token) {
+          jwtUser = jwt.decode(token)
+        }
         let res = await this.$axios({
           url: '/api/user/getInfo',
           method: 'POST',
           data: {
-            username: this.username
+            _id: jwtUser._id
           }
         })
         let user = res.data.data
@@ -73,30 +79,35 @@
           this.userInfo.remark = user.remark
         }
       },
-      handleSubmit (name) {
-        this.$refs[name].validate((valid)=>{
+      handleSubmit(name) {
+        this.$refs[name].validate((valid) => {
           if (valid) {
-            this.updateUser().then(res=>{
-              if(res.data.data.ok === 1){
-                this.$Message.success('保存成功');
+            this.updateUser().then(res => {
+              if (res.data.data.ok === 1) {
+                this.$Message.success({
+                  content: '保存成功',
+                  onClose: () => {
+                    this.$router.go(0)
+                  }
+                })
               }
             })
           } else {
-            this.$Message.error('校验失败!');
+            this.$Message.error('校验失败!')
             return false
           }
         })
       },
-      async updateUser(){
+      async updateUser() {
         let res = await this.$axios({
-          url: '/api/user/'+this.userInfo._id,
+          url: '/api/user/' + this.userInfo._id,
           method: 'PATCH',
           data: {
             username: this.userInfo.username,
-            phone:this.userInfo.phone,
-            email:this.userInfo.email,
-            remark:this.userInfo.remark,
-            updated:Date.now()
+            phone: this.userInfo.phone,
+            email: this.userInfo.email,
+            remark: this.userInfo.remark,
+            updated: Date.now()
           }
         })
         return res

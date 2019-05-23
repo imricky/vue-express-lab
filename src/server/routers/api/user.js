@@ -53,9 +53,6 @@ router.post('/login', (req, res, next) => {
     })
     return
   }
-  const tokenObj = {
-    username: req.body.username,
-  }
   UserService.getOneByName(username)
       .then((user) => {
         if (user === null) {
@@ -75,6 +72,10 @@ router.post('/login', (req, res, next) => {
           })
           return
         }
+        const tokenObj = {
+          username: req.body.username,
+          _id:user._id
+        }
         // 用户登录成功过后生成token返给前端
         let token = jwt.sign(
             tokenObj,
@@ -88,6 +89,7 @@ router.post('/login', (req, res, next) => {
           success: true,
           message: `用户${username}登录成功`,
           username,
+          _id:user._id,
           token: token
         })
       }, (err) => {
@@ -170,9 +172,10 @@ router.post('/find', (req, res, next) => {
 })
 
 router.post('/getInfo', (req, res, next) => {
-  const username = req.body.username
-  UserService.getOneByName(username)
+  const _id = req.body._id
+  UserService.getInfo(_id)
       .then((data) => {
+        console.log(`data:${data}`)
         if(_.isEmpty(data)){
           res.json({
             success: false,

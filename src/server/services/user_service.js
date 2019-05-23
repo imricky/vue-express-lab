@@ -28,6 +28,10 @@ class UserService {
     const user = await User.UserMethods.getOneByName(username)
     return user
   }
+  static async getInfo(_id) {
+    const user = await User.UserMethods.getInfo(_id)
+    return user
+  }
 }
 
 module.exports = {
