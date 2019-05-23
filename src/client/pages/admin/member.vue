@@ -15,9 +15,9 @@
               <Icon type="ios-list-box-outline" />
               <span>文章管理</span>
             </MenuItem>
-            <MenuItem name="1-3">
+            <MenuItem name="article-publish" :to="'/member/'+username+'/editor'">
               <Icon type="ios-settings"></Icon>
-              <span>Option 3</span>
+              <span>文章发布</span>
             </MenuItem>
           </Menu>
           <div slot="trigger"></div>
