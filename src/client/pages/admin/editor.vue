@@ -24,6 +24,7 @@
   import hljs from 'highlight.js'
   import javascript from 'highlight.js/lib/languages/javascript'
   import 'highlight.js/styles/monokai-sublime.css'
+  import jwt from 'jsonwebtoken'
 
   export default {
     name: 'Editor',
@@ -36,7 +37,13 @@
       }
     },
     methods: {
+
       publish() {
+        let token = window.localStorage.getItem('jwt_token')
+        let jwtUser
+        if (token) {
+          jwtUser = jwt.decode(token)
+        }
         let content = this.content
         let title = this.title
         let tags = this.tags
@@ -47,13 +54,15 @@
             title: this.title,
             content: this.content,
             tags: this.tags,
+            author:jwtUser.username,
+            authorAid:jwtUser._id
           },
         })
             .then(res => {
               this.$Message.success({
                 content: '保存成功',
                 onClose: () => {
-                  console.log(res)
+                  this.$router.push('/')
                 }
               })
             })
@@ -63,7 +72,10 @@
 
       }
     },
-    computed: {}
+    computed: {},
+    created() {
+
+    }
   }
 </script>
 

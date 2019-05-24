@@ -23,11 +23,10 @@ router.post('/save', (req, res, next) => {
     content: req.body.content,
     viewCount: req.body.viewCount,
     commentCount: req.body.commentCount,
-    time: req.body.time,
     author: req.body.author,//作者
     tags: req.body.tags,//标签
-    isPublish: req.body.isPublish//是否发布
-
+    isPublish: req.body.isPublish,//是否发布
+    authorAid:req.body.authorAid //作者的aid
   }
   ArticleService.save(article)
       .then((data) => {

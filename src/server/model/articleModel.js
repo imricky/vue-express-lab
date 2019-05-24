@@ -11,6 +11,7 @@ const articleSchema = new Schema({
   commentCount: Number,//评论次数
   coverImg: String,//封面图片
   author: String,//作者
+  authorAid:String,//作者表的id
   tags: [String],//标签
   isPublish: Boolean,//是否发布
   updated: { type: Date, default: Date.now },
@@ -45,7 +46,7 @@ class ArticleMethods {
 
   //获取所有文章
   static async getList() {
-    return await articleModel.find({})
+    return await articleModel.find({}).sort({updated: -1})
   }
 
   //添加文章
