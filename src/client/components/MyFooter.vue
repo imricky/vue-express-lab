@@ -28,7 +28,7 @@
   #Bottom{
     text-align: left;
     background-color: #fff;
-    height: 100px;
+    height: 80px;
     font-size: 15px;
     font-weight: 500;
     background-size: 44px 44px;
@@ -43,7 +43,7 @@
     margin: 0 auto;
     /*border: 1px solid #FF9E92;*/
     display: flex;
-    height: 100px;
+    height: 80px;
     align-items: center;
     /*flex-wrap: wrap*/
 

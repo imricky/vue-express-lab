@@ -17,8 +17,8 @@
         <Input v-model="userInfo.remark" clearable class="basic-input"></Input>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="handleSubmit('userInfo')">Submit</Button>
-        <Button @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+        <Button icon="ios-search" @click="handleSubmit('userInfo')">Submit</Button>
+        <Button icon="ios-search" @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
       </FormItem>
     </Form>
   </div>
@@ -26,6 +26,7 @@
 
 <script>
   import jwt from 'jsonwebtoken'
+
   export default {
     name: "BasicSetting",
     data() {
