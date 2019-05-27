@@ -11,21 +11,21 @@ const articleSchema = new Schema({
   commentCount: Number,//评论次数
   coverImg: String,//封面图片
   author: String,//作者
-  authorAid:String,//作者表的id
+  authorAid: String,//作者表的id
   tags: [String],//标签
   isPublish: Boolean,//是否发布
-  updated: { type: Date, default: Date.now },
-  created: { type: Date, default: Date.now }
+  updated: {type: Date, default: Date.now},
+  created: {type: Date, default: Date.now}
 })
 
 //在创建文档时，获取自增ID值
-articleSchema.pre('save', function(next) {
+articleSchema.pre('save', function (next) {
   var self = this
-  if( self.isNew ) {
-    Sequence.increment('articleModel',function (err, result) {
+  if (self.isNew) {
+    Sequence.increment('articleModel', function (err, result) {
       if (err)
-        throw err;
-      self.aid = result.value.next;
+        throw err
+      self.aid = result.value.next
       next()
     })
   } else {
@@ -49,6 +49,11 @@ class ArticleMethods {
     return await articleModel.find({}).sort({updated: -1})
   }
 
+  //获取当前作者的所有文章
+  static async getListByAuthor(authorAid) {
+    return await articleModel.find({authorAid}, {content: 0}).sort({updated: -1})
+  }
+
   //添加文章
   static async save(article) {
     try {
@@ -64,10 +69,10 @@ class ArticleMethods {
 
   }
 
-  static async update(aid,article){
+  static async update(aid, article) {
     try {
       //标题必须是唯一的
-      let res = await articleModel.update({aid:aid},article)
+      let res = await articleModel.update({aid: aid}, article)
       logger.info(res)
       return res
     } catch (e) {

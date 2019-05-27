@@ -17,6 +17,20 @@ router.get('/getList', (req, res, next) => {
       })
 })
 
+router.post('/getListByAuthor', (req, res, next) => {
+  let authorAid = req.body.authorAid
+  ArticleService.getListByAuthor(authorAid)
+      .then((data) => {
+        res.json({
+          data
+        })
+      })
+      .catch(e => {
+        logger.error(e)
+        next(e)
+      })
+})
+
 router.post('/save', (req, res, next) => {
   let article = {
     title: req.body.title,
@@ -26,7 +40,7 @@ router.post('/save', (req, res, next) => {
     author: req.body.author,//作者
     tags: req.body.tags,//标签
     isPublish: req.body.isPublish,//是否发布
-    authorAid:req.body.authorAid //作者的aid
+    authorAid: req.body.authorAid //作者的aid
   }
   ArticleService.save(article)
       .then((data) => {
@@ -50,12 +64,12 @@ router.patch('/:aid', (req, res, next) => {
   let article = {
     title: req.body.title,
     content: req.body.content,
-    updated:Date.now(),
+    updated: Date.now(),
     tags: req.body.tags,//标签
     isPublish: true//是否发布
 
   }
-  ArticleService.update(aid,article)
+  ArticleService.update(aid, article)
       .then((data) => {
         res.json({
           success: true,

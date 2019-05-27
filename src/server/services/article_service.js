@@ -1,11 +1,17 @@
 const Article = require('../model/articleModel')
 
 class ArticleService {
-  constructor(){
+  constructor() {
 
   }
+
   static async getList() {
     const article = await Article.ArticleMethods.getList()
+    return article
+  }
+
+  static async getListByAuthor(authorAid) {
+    const article = await Article.ArticleMethods.getListByAuthor(authorAid)
     return article
   }
 
@@ -14,8 +20,8 @@ class ArticleService {
     return res
   }
 
-  static async update(aid,article) {
-    const res = await Article.ArticleMethods.update(aid,article)
+  static async update(aid, article) {
+    const res = await Article.ArticleMethods.update(aid, article)
     return res
   }
 
