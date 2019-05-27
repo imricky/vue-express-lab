@@ -6,6 +6,7 @@
 
 <script>
   import jwt from 'jsonwebtoken'
+
   export default {
     name: "ArticleManage",
     data() {
@@ -54,13 +55,14 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params.index)
+                      let aid = params.row.aid
+                      this.$router.push({path: `/article/${aid}`})
                     }
                   }
                 }, '浏览'),
                 h('Button', {
                   props: {
-                    type: 'error',
+                    type: 'primary',
                     size: 'small'
                   },
                   style: {
@@ -79,7 +81,10 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      let aid = params.row.aid
+                      let title = params.row.title
+                      let index = params.index
+                      this.handleRender(title, aid,index)
                     }
                   }
                 }, '删除'),
@@ -109,8 +114,33 @@
         if (!_.isEmpty(articles.data.data)) {
           this.articleData = articles.data.data
         }
-        console.log(this.articleData)
-      }
+      },
+      async delete(aid) {
+        let res = await this.$axios({
+          url: '/api/article/delete',
+          method: 'POST',
+          data: {
+            aid: aid
+          }
+        })
+        return res
+      },
+      handleRender(title, aid,index) {
+        this.$Modal.confirm({
+          title: '提示',
+          content: `<p>确定要删除【${title}】吗？</p>`,
+          onOk: async () => {
+            let res = await this.delete(aid)
+            if(res.data.success === true){
+              this.articleData.splice(index, 1);
+              this.$Message.success('删除成功')
+            }
+          },
+          onCancel: () => {
+            this.$Message.info('取消操作')
+          }
+        })
+      },
     },
     created() {
       this.getArticle()
