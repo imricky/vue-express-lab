@@ -12,7 +12,7 @@
       </div>
       <Row type="flex" justify="start" class="code-row-bg">
         <Col span="4">
-          <Icon type="ios-pricetags-outline" />
+          <Icon type="ios-pricetags-outline"/>
           <span class="view-info tags">
             <a href="#"
                v-for="(i,index) in handleTags(item.tags)"
@@ -22,14 +22,14 @@
           </span>
         </Col>
         <Col span="4" v-if="item.viewCount">
-          <Icon type="ios-eye-outline" />
-          <span class="view-info viewCount" >
+          <Icon type="ios-eye-outline"/>
+          <span class="view-info viewCount">
             {{item.viewCount}}
             <span class="info-dot">•</span>
           </span>
         </Col>
         <Col span="4" v-if="item.commentCount">
-          <Icon type="ios-code-working" />
+          <Icon type="ios-code-working"/>
           <span class="view-info">
             {{item.commentCount}}
             <span class="info-dot">•</span>
@@ -125,9 +125,9 @@
 
       .content {
         height: 100px;
-        max-width: 770px;
+        max-width: 700px;
         min-width: 350px;
-        width: 770px;
+        width: 700px;
         border: 1px solid red;
       }
 
