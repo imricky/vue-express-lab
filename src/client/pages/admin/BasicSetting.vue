@@ -17,8 +17,8 @@
         <Input v-model="userInfo.remark" clearable class="basic-input"></Input>
       </FormItem>
       <FormItem>
-        <Button icon="ios-search" @click="handleSubmit('userInfo')">Submit</Button>
-        <Button icon="ios-search" @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+        <Button icon="ios-search" @click="handleSubmit('userInfo')">提交</Button>
+        <Button icon="ios-search" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
       </FormItem>
     </Form>
   </div>
