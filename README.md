@@ -6,8 +6,12 @@ yarn install
 ```
 
 ### TODO
-- [ ] 日志每天定时存入mongodb数据库(nodejs定时任务)
-- [ ] 爬虫爬取数据，存入mongodb,数据源没有想好
+- [ ] 博客用户添加友链和GitHub等资料，完善侧边栏
+- [ ] 入口校验，现在只是前端校验，后端访问接口还要校验
+- [ ] 修改样式，去掉边框
+- [ ] 文章列表渲染样式再调整
+- [ ] 使用vuex重构，采用一个数据源
+- [ ] 样式抽取，减少css
 
 ### Compiles and hot-reloads for development
 ```
