@@ -62,7 +62,7 @@
                 }, '浏览'),
                 h('Button', {
                   props: {
-                    type: 'primary',
+                    type: 'success',
                     size: 'small'
                   },
                   style: {
@@ -70,7 +70,8 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      let aid = params.row.aid
+                      this.updateArticle(aid)
                     }
                   }
                 }, '更新'),
@@ -84,7 +85,7 @@
                       let aid = params.row.aid
                       let title = params.row.title
                       let index = params.index
-                      this.handleRender(title, aid,index)
+                      this.deleteArticle(title, aid, index)
                     }
                   }
                 }, '删除'),
@@ -111,7 +112,7 @@
             authorAid: userInfo._id
           }
         })
-        if (!_.isEmpty(articles.data.data)) {
+        if (!_.isUndefined(articles.data.data)) {
           this.articleData = articles.data.data
         }
       },
@@ -125,14 +126,14 @@
         })
         return res
       },
-      handleRender(title, aid,index) {
+      deleteArticle(title, aid, index) {
         this.$Modal.confirm({
           title: '提示',
           content: `<p>确定要删除【${title}】吗？</p>`,
           onOk: async () => {
             let res = await this.delete(aid)
-            if(res.data.success === true){
-              this.articleData.splice(index, 1);
+            if (res.data.success === true) {
+              this.articleData.splice(index, 1)
               this.$Message.success('删除成功')
             }
           },
@@ -141,6 +142,25 @@
           }
         })
       },
+      async updateArticle(aid) {
+        let token = window.localStorage.getItem('jwt_token')
+        let userInfo
+        let username
+        if (token) {
+          userInfo = jwt.decode(token)
+          let res = await this.$axios({
+            url: '/api/user/getInfo',
+            method: 'POST',
+            data: {
+              _id: userInfo._id
+            }
+          })
+          username = res.data.data.username
+          // this.$router.push({path:`/member/${username}/editor`})
+          this.$router.push({name: 'editor', params: {username: username, aid: aid}})
+        }
+
+      }
     },
     created() {
       this.getArticle()

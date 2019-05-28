@@ -25,6 +25,7 @@
   import javascript from 'highlight.js/lib/languages/javascript'
   import 'highlight.js/styles/monokai-sublime.css'
   import jwt from 'jsonwebtoken'
+  import _ from 'lodash'
 
   export default {
     name: 'Editor',
@@ -32,13 +33,13 @@
       return {
         title: '',
         tags: '',
-        content: ''
-
+        content: '',
+        aid: this.$route.params.aid
       }
     },
     methods: {
 
-      publish() {
+      async publish() {
         let token = window.localStorage.getItem('jwt_token')
         let jwtUser
         if (token) {
@@ -47,34 +48,61 @@
         let content = this.content
         let title = this.title
         let tags = this.tags
-        this.$axios({
-          url: '/api/article/save',
+        let res
+        if (_.isUndefined(this.aid)) {
+          res = await this.$axios({
+            url: '/api/article/save',
+            method: 'POST',
+            data: {
+              title: this.title,
+              content: this.content,
+              tags: this.tags,
+              author: jwtUser.username,
+              authorAid: jwtUser._id
+            },
+          })
+        } else {
+          res = await this.$axios({
+            url: '/api/article/' + this.aid,
+            method: 'PATCH',
+            data: {
+              title: this.title,
+              content: this.content,
+              tags: this.tags
+            }
+          })
+        }
+        if (res.data.success === true) {
+          this.$Message.success({
+            content: '保存成功',
+            onClose: () => {
+              this.$router.push('/')
+            }
+          })
+        } else {
+          this.$Message.error(`保存失败${res.data.errorMessage}`)
+        }
+
+      },
+      async getArticleInfo(aid) {
+        let res = await this.$axios({
+          url: '/api/article/getInfo',
           method: 'POST',
           data: {
-            title: this.title,
-            content: this.content,
-            tags: this.tags,
-            author:jwtUser.username,
-            authorAid:jwtUser._id
+            aid: this.aid
           },
         })
-            .then(res => {
-              this.$Message.success({
-                content: '保存成功',
-                onClose: () => {
-                  this.$router.push('/')
-                }
-              })
-            })
-            .catch(e => {
-              this.$Message.error(`保存失败${e}`)
-            })
-
+        this.title = res.data.data.title
+        this.tags = res.data.data.tags.toString() //TODO:这个地方数组需要处理一下,有坑
+        this.content = res.data.data.content
       }
+
     },
     computed: {},
     created() {
-
+      if (!_.isUndefined(this.aid)) {
+        this.getArticleInfo(this.aid)
+      }
     }
   }
 </script>
@@ -84,18 +112,22 @@
     border: 1px solid forestgreen;
     width: 100%;
     min-height: 560px;
-    .divider{
+
+    .divider {
       margin: 5px 0;
     }
   }
-  #content{
+
+  #content {
     width: auto;
   }
+
   .info-input {
     width: 800px;
     margin-left: 40px;
   }
-  #publish{
+
+  #publish {
     margin: 25px 0 10px 10px;
 
   }
