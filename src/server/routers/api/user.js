@@ -20,6 +20,7 @@ router.post('/register', (req, res, next) => {
     phone:req.body.phone,
     email:req.body.email,
     remark:req.body.remark,
+    description:req.body.description
   }
   UserService.save(user)
       .then((data)=>{

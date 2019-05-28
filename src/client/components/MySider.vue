@@ -1,31 +1,50 @@
 <template>
   <div id="RightBar">
     <div id="author">
-      <img src="" class="author-image" alt="" >
+      <p class="author-image">
+        <Avatar size="large" class="author-head">{{userInfo.username}}</Avatar>
+      </p>
+      <p class="author-name">{{userInfo.username}}</p>
+      <p class="author-description" v-if="userInfo.description">{{userInfo.description}}</p>
+      <p class="author-description" v-else>这家伙很懒，什么都没留下</p>
 
-      <p class="author-name">Ricky</p>
-      <p class="author-description">The Best or Nothing</p>
     </div>
-    <Divider>More Info</Divider>
+<!--    <Divider>More Info</Divider>-->
     <div id="info">
       <div class="state">
         日志
-        <Divider type="vertical" />
+        <Divider type="vertical"/>
         <a href="#">分类</a>
-        <Divider type="vertical" />
+        <Divider type="vertical"/>
         <a href="#">标签</a>
       </div>
-      <div class="person-data">
-        <a class="person-link">
-          <Icon type="logo-github" />
+      <Divider orientation="left">其它</Divider>
+      <div class="self-data">
+        <a class="self-link">
+          <Icon type="logo-github"/>
           Github
         </a>
-        <a class="person-link">
-          <Icon type="md-bowtie" />
+        <a class="self-link">
+          <Icon type="md-bowtie"/>
           掘金
         </a>
-        <a class="person-link">
-          <Icon type="ios-bookmarks" />
+        <a class="self-link">
+          <Icon type="ios-bookmarks"/>
+          简书
+        </a>
+      </div>
+      <Divider orientation="left">友链</Divider>
+      <div class="self-data">
+        <a class="self-link">
+          <Icon type="logo-github"/>
+          Github
+        </a>
+        <a class="self-link">
+          <Icon type="md-bowtie"/>
+          掘金
+        </a>
+        <a class="self-link">
+          <Icon type="ios-bookmarks"/>
           简书
         </a>
       </div>
@@ -34,19 +53,63 @@
 </template>
 
 <script>
+  import jwt from 'jsonwebtoken'
+
   export default {
-    name: "MySider"
+    name: "MySider",
+    data() {
+      return {
+        userInfo: {
+          _id: '',
+          username: '',
+          description: '',
+          phone: '',
+          email: '',
+          remark: '',
+          selfLink: '',
+          friendLink: ''
+        },
+      }
+    },
+    methods: {
+      async getUserInfo() {
+        let token = window.localStorage.getItem('jwt_token')
+        let jwtUser
+        if (token) {
+          jwtUser = jwt.decode(token)
+        }
+        let res = await this.$axios({
+          url: '/api/user/getInfo',
+          method: 'POST',
+          data: {
+            _id: jwtUser._id
+          }
+        })
+        let user = res.data.data
+        if (!_.isUndefined(user)) {
+          this.userInfo._id = user._id
+          this.userInfo.username = user.username
+          this.userInfo.description = user.description
+          this.userInfo.selfLink = user.selfLink
+          this.userInfo.friendLink = user.friendLink
+        }
+      },
+    },
+    created() {
+      this.getUserInfo()
+    },
   }
 </script>
 
 <style scoped lang="scss">
-  #RightBar{
+  #RightBar {
     width: 270px;
     border: 1px solid red;
-    min-height: 400px;
+    min-height: 500px;
     margin-right: 30px;
   }
-  .author-image{
+
+  .author-image {
     display: block;
     margin: 0 auto;
     padding: 2px;
@@ -54,8 +117,18 @@
     height: 96px;
     margin-top: 5px;
     border: 1px solid #239bf0;
+
+    .author-head {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto;
+      margin-left: 5px;
+      margin-top: 5px;
+    }
   }
-  .author-name{
+
+  .author-name {
     display: block;
     border: 1px solid #239bf0;
     height: 32px;
@@ -64,7 +137,8 @@
     font-size: 16px;
     margin-top: 5px;
   }
-  .author-description{
+
+  .author-description {
     display: block;
     border: 1px solid #239bf0;
     height: 28px;
@@ -74,18 +148,22 @@
     color: #FF9E92;
     margin-top: 5px;
   }
-  .state{
+
+  .state {
     border: 1px solid #239bf0;
     height: 48px;
     text-align: center;
     line-height: 48px;
     font-size: 14px;
+    margin-top: 5px;
   }
-  .person-data{
+
+  .self-data {
     border: 1px solid #239bf0;
     margin-top: 5px;
     min-height: 128px;
-    .person-link{
+
+    .self-link {
       display: block;
       font-size: 14px;
       padding: 5px 0;
