@@ -9,7 +9,7 @@
       <p class="author-description" v-else>这家伙很懒，什么都没留下</p>
 
     </div>
-<!--    <Divider>More Info</Divider>-->
+    <!--    <Divider>More Info</Divider>-->
     <div id="info">
       <div class="state">
         日志
@@ -20,32 +20,24 @@
       </div>
       <Divider orientation="left">其它</Divider>
       <div class="self-data">
-        <a class="self-link">
+        <a class="self-link" v-if="this.userInfo.selfLink.github">
           <Icon type="logo-github"/>
           Github
         </a>
-        <a class="self-link">
+        <a class="self-link" v-if="this.userInfo.selfLink.juejin">
           <Icon type="md-bowtie"/>
           掘金
         </a>
-        <a class="self-link">
+        <a class="self-link" v-if="this.userInfo.selfLink.jianshu">
           <Icon type="ios-bookmarks"/>
           简书
         </a>
       </div>
       <Divider orientation="left">友链</Divider>
       <div class="self-data">
-        <a class="self-link">
-          <Icon type="logo-github"/>
-          Github
-        </a>
-        <a class="self-link">
-          <Icon type="md-bowtie"/>
-          掘金
-        </a>
-        <a class="self-link">
-          <Icon type="ios-bookmarks"/>
-          简书
+        <a class="self-link" v-for="item in this.userInfo.friendLink" :href="item.url" target="_blank">
+          <Icon type="ios-link-outline" />
+          {{item.name}}
         </a>
       </div>
     </div>

@@ -14,6 +14,15 @@ const userSchema = new Schema({
   created: {type: Date, default: Date.now},
   remark: String,
   status: {type: Number, default: 1}, //用户状态，1代表在线，2代表删除
+  selfLink: {
+    github:String,
+    jianshu:String,
+    juejin:String
+  },
+  friendLink: [{
+    name:String,
+    url:String
+  }]
   // comments: [{ body: String, date: Date }],
   // date: { type: Date, default: Date.now },
   // hidden: Boolean,
