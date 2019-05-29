@@ -1,6 +1,7 @@
 <template>
   <div class="setting">
     <Form ref="userInfo" :model="userInfo" :rules="ruleValidate" :label-width="80">
+      <Divider orientation="left" size="small">基本信息</Divider>
       <FormItem label="_id" required prop="_id">
         <Input v-model="userInfo._id" clearable disabled class="basic-input"></Input>
       </FormItem>
@@ -15,6 +16,41 @@
       </FormItem>
       <FormItem label="备注" prop="remark">
         <Input v-model="userInfo.remark" clearable class="basic-input"></Input>
+      </FormItem>
+      <Divider orientation="left" size="small">其他信息</Divider>
+      <FormItem label="GitHub" prop="github">
+        <Input v-model="userInfo.selfLink.github" clearable class="basic-input"></Input>
+      </FormItem>
+      <FormItem label="简书" prop="jianshu">
+        <Input v-model="userInfo.selfLink.jianshu" clearable class="basic-input"></Input>
+      </FormItem>
+      <FormItem label="掘金" prop="juejin">
+        <Input v-model="userInfo.selfLink.juejin" clearable class="basic-input"></Input>
+      </FormItem>
+      <Divider orientation="left" size="small">友链</Divider>
+      <FormItem
+        v-for="(item, index) in userInfo.friendLink.items"
+        :key="index"
+        :label="'Link ' + item.index"
+        :prop="item.name">
+        <Row>
+          <Col span="5">
+            <Input type="text" v-model="item.name" placeholder="友链名称"></Input>
+          </Col>
+          <Col span="14">
+            <Input type="text" v-model="item.url" placeholder="url..."></Input>
+          </Col>
+          <Col span="4" offset="1">
+            <Button @click="handleRemove(index)">Delete</Button>
+          </Col>
+        </Row>
+      </FormItem>
+      <FormItem>
+        <Row>
+          <Col span="12">
+            <Button type="dashed" @click="handleAdd" icon="md-add">添加友链</Button>
+          </Col>
+        </Row>
       </FormItem>
       <FormItem>
         <Button icon="ios-search" @click="handleSubmit('userInfo')">提交</Button>
@@ -38,7 +74,22 @@
           username: '',
           phone: '',
           email: '',
-          remark: ''
+          remark: '',
+          selfLink:{
+            github:'',
+            jianshu:'',
+            juejin: ''
+          },
+          friendLink: {
+            index:1,
+            items: [
+              {
+                name: '',
+                url: '',
+                index: 1
+              }
+            ]
+          }
         },
         ruleValidate: {
           username: [
@@ -58,6 +109,19 @@
     },
     computed: {},
     methods: {
+      handleAdd () {
+        this.userInfo.friendLink.index++
+        this.userInfo.friendLink.items.push({
+          name: '',
+          url: '',
+          index: this.userInfo.friendLink.index,
+        })
+      },
+      handleRemove (index) {
+        this.userInfo.friendLink.items.splice(index,1)
+        // this.userInfo.friendLink.index -= 1 //TODO 这个地方怎么动态改变标签的名称，以后解决
+      },
+
       async getUserInfo() {
         let token = window.localStorage.getItem('jwt_token')
         let jwtUser
@@ -78,6 +142,9 @@
           this.userInfo.phone = user.phone
           this.userInfo.email = user.email
           this.userInfo.remark = user.remark
+          this.userInfo.selfLink = user.selfLink
+          this.userInfo.friendLink.items = user.friendLink
+          this.userInfo.friendLink.index = this.userInfo.friendLink.items.length
         }
       },
       handleSubmit(name) {
@@ -108,7 +175,9 @@
             phone: this.userInfo.phone,
             email: this.userInfo.email,
             remark: this.userInfo.remark,
-            updated: Date.now()
+            updated: Date.now(),
+            selfLink: this.userInfo.selfLink,
+            friendLink: this.userInfo.friendLink
           }
         })
         return res

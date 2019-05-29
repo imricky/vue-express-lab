@@ -20,6 +20,7 @@ const userSchema = new Schema({
     juejin:String
   },
   friendLink: [{
+    index:Number,
     name:String,
     url:String
   }]

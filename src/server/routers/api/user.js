@@ -106,13 +106,14 @@ router.post('/login', (req, res, next) => {
 
 router.patch('/:_id', (req, res, next) => {
   const _id = req.params._id
-
   let user = {
     username:req.body.username,
     phone:req.body.phone,
     email:req.body.email,
     remark:req.body.remark,
-    updated:Date.now()
+    updated:Date.now(),
+    selfLink: req.body.selfLink,
+    friendLink: req.body.friendLink.items
   }
   if(req.body.password){
     const cipher = pbkdf2Sync(req.body.password, 'ashdjkaqkjwjehasd', 10000, 512, 'sha256')
