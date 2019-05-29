@@ -8,6 +8,9 @@
       <FormItem label="用户名" required prop="username">
         <Input v-model="userInfo.username" clearable class="basic-input"></Input>
       </FormItem>
+      <FormItem label="一句话简介" prop="description">
+        <Input v-model="userInfo.description" clearable class="basic-input"></Input>
+      </FormItem>
       <FormItem label="手机" prop="phone">
         <Input v-model="userInfo.phone" clearable class="basic-input"></Input>
       </FormItem>
@@ -75,6 +78,7 @@
           phone: '',
           email: '',
           remark: '',
+          description:'',
           selfLink:{
             github:'',
             jianshu:'',
@@ -142,6 +146,7 @@
           this.userInfo.phone = user.phone
           this.userInfo.email = user.email
           this.userInfo.remark = user.remark
+          this.userInfo.description = user.description
           this.userInfo.selfLink = user.selfLink
           this.userInfo.friendLink.items = user.friendLink
           this.userInfo.friendLink.index = this.userInfo.friendLink.items.length
@@ -175,6 +180,7 @@
             phone: this.userInfo.phone,
             email: this.userInfo.email,
             remark: this.userInfo.remark,
+            description: this.userInfo.description,
             updated: Date.now(),
             selfLink: this.userInfo.selfLink,
             friendLink: this.userInfo.friendLink

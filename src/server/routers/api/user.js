@@ -111,6 +111,7 @@ router.patch('/:_id', (req, res, next) => {
     phone:req.body.phone,
     email:req.body.email,
     remark:req.body.remark,
+    description:req.body.description,
     updated:Date.now(),
     selfLink: req.body.selfLink,
     friendLink: req.body.friendLink.items
