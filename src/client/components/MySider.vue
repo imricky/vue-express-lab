@@ -20,15 +20,15 @@
       </div>
       <Divider orientation="left">其它</Divider>
       <div class="self-data">
-        <a class="self-link" v-if="this.userInfo.selfLink.github">
+        <a class="self-link" v-if="this.userInfo.selfLink.github" :href="this.userInfo.selfLink.github" target="_blank">
           <Icon type="logo-github"/>
           Github
         </a>
-        <a class="self-link" v-if="this.userInfo.selfLink.juejin">
+        <a class="self-link" v-if="this.userInfo.selfLink.juejin" :href="this.userInfo.selfLink.juejin" target="_blank">
           <Icon type="md-bowtie"/>
           掘金
         </a>
-        <a class="self-link" v-if="this.userInfo.selfLink.jianshu">
+        <a class="self-link" v-if="this.userInfo.selfLink.jianshu" :href="this.userInfo.selfLink.jianshu" target="_blank">
           <Icon type="ios-bookmarks"/>
           简书
         </a>
