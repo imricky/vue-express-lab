@@ -15,6 +15,7 @@ yarn install
 - [ ] 使用vuex重构，采用一个数据源
 - [ ] 实现文章分页
 - [ ] 样式抽取，减少css
+- [ ] 用户找回密码功能
 - [ ] 使用GitHub OAuth2 进行登录
 
 ### Compiles and hot-reloads for development
