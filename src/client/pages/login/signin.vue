@@ -198,7 +198,10 @@
   }
 
   .sign-in {
-    display: inline-block;
+    display: block;
+    margin: 10px auto;
+    border-radius: 20px;
+    width: 85%;
     height: 40px;
   }
   .tip-label{
