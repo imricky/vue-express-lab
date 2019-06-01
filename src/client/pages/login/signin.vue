@@ -1,21 +1,43 @@
 <template>
   <div id="all">
     <div class="layout">
-      <!--      <Form ref="formInline" :model="formInline" :rules="ruleInline">-->
-      <!--        <FormItem prop="user">-->
-      <!--          <Input type="text" v-model="formInline.user" placeholder="Username">-->
-      <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
-      <!--          </Input>-->
-      <!--        </FormItem>-->
-      <!--        <FormItem prop="password">-->
-      <!--          <Input type="password" v-model="formInline.password" placeholder="Password">-->
-      <!--            <Icon type="ios-lock-outline" slot="prepend"></Icon>-->
-      <!--          </Input>-->
-      <!--        </FormItem>-->
-      <!--        <FormItem>-->
-      <!--          <Button type="primary" @click="handleSubmit('formInline')">Signin</Button>-->
-      <!--        </FormItem>-->
-      <!--      </Form>-->
+      <div class="shadow">
+        <div class="title">Awesome Blog</div>
+        <div class="input-label-wrapper">
+          <div class="input-label">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" label-position="top">
+              <label class="tip-label">用户名</label>
+              <FormItem prop="user">
+                <Input type="text" v-model="formInline.user" placeholder="Username" class="base-input" size="large">
+                  <Icon type="ios-person-outline" slot="prepend"></Icon>
+                </Input>
+              </FormItem>
+              <FormItem prop="password" >
+                <label class="tip-label">密码</label>
+                <Input type="password" v-model="formInline.password" placeholder="Password" class="base-input"
+                       size="large">
+                  <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                </Input>
+              </FormItem>
+
+              <FormItem>
+                <Checkbox v-model="formInline.rememberMe" class="remember">记住我?</Checkbox>
+                <span class="problem">登录遇到问题</span>
+              </FormItem>
+            </Form>
+          </div>
+        </div>
+        <div class="button">
+          <Form>
+            <FormItem>
+              <Button type="success" long @click="handleSubmit('formInline')" class="sign-in">登录</Button>
+            </FormItem>
+          </Form>
+          >
+        </div>
+
+      </div>
+
     </div>
   </div>
 
@@ -29,7 +51,8 @@
       return {
         formInline: {
           user: '',
-          password: ''
+          password: '',
+          rememberMe: ''
         },
         ruleInline: {
           user: [
@@ -43,7 +66,7 @@
       }
     },
     methods: {
-      handleSubmit(name) {
+      handleSubmit: function (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
             // this.$Message.success('Success!')
@@ -66,10 +89,18 @@
                         })
                   }
                 })
+              } else {
+                this.$Message.error({
+                  content: `${data.errMessage}`,
+                  onClose: () => {
+                    this.formInline.user = ""
+                    this.formInline.password = ""
+                  }
+                })
               }
             })
                 .catch(e => {
-                  this.$Message.error(e)
+                  this.$Message.error(e.errorMessage)
                 })
           } else {
             this.$Message.error('Fail!')
@@ -105,5 +136,73 @@
     -o-background-size: cover;
     /*这句的意思就是图片的位置，居中，靠左对齐*/
     background-position: center 0;
+  }
+
+  .shadow {
+    width: 540px;
+    height: 600px;
+    /*border: 1px solid #FF9E92;*/
+    position: relative;
+    margin: 0 auto;
+    top: 30px;
+    box-shadow: #666 0 0 30px;
+  }
+
+  .title {
+    height: 80px;
+    font-size: 50px;
+    color: #FFFFFF;
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .input-label-wrapper {
+    /*border: 2px solid #239bf0;*/
+    height: 360px;
+
+    .input-label {
+      /*border: 2px solid #239bf0;*/
+      margin: 0 10px;
+      height: 260px;
+      position: relative;
+      top: 55%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .base-input {
+    padding: 10px 30px;
+  }
+
+  .remember {
+    padding-left: 10px;
+    font-size: 16px;
+  }
+
+  .problem {
+    font-size: 16px;
+    /*color: #FFFFFF;*/
+    float: right;
+    margin-right: 20px;
+
+    &:hover {
+      color: #239bf0;
+      cursor: pointer;
+    }
+  }
+
+  .button {
+    /*border: 2px solid #239bf0;*/
+    height: 60px;
+    margin-top: 10px;
+  }
+
+  .sign-in {
+    display: inline-block;
+    height: 40px;
+  }
+  .tip-label{
+    text-align:left;
+    font-size:16px;
   }
 </style>
