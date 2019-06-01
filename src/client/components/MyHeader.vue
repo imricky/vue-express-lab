@@ -10,7 +10,9 @@
         <router-link to="/signin">
           <Button icon="md-log-in" class="Login-Button">登录</Button>
         </router-link>
-        <Button icon="md-person-add" class="Register-Button">注册</Button>
+        <router-link to="/signup">
+          <Button icon="md-person-add" class="Register-Button">注册</Button>
+        </router-link>
       </div>
       <div class="Button" v-else>
         <router-link :to="'/member/'+username">

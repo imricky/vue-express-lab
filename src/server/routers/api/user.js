@@ -21,8 +21,8 @@ router.post('/register', (req, res, next) => {
     email:req.body.email,
     remark:req.body.remark,
     description:req.body.description,
-    selfLink: JSON.parse(req.body.selfLink),
-    friendLink: JSON.parse(req.body.friendLink)
+    selfLink: req.body.selfLink,
+    friendLink: req.body.friendLink
   }
   UserService.save(user)
       .then((data)=>{
