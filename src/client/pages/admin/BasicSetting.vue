@@ -143,13 +143,13 @@
         if (!_.isEmpty(user)) {
           this.userInfo._id = user._id
           this.userInfo.username = user.username
-          this.userInfo.phone = user.phone
-          this.userInfo.email = user.email
-          this.userInfo.remark = user.remark
-          this.userInfo.description = user.description
-          this.userInfo.selfLink = user.selfLink
-          this.userInfo.friendLink.items = user.friendLink
-          this.userInfo.friendLink.index = this.userInfo.friendLink.items.length
+          this.userInfo.phone = user.phone || ""
+          this.userInfo.email = user.email || ""
+          this.userInfo.remark = user.remark || ""
+          this.userInfo.description = user.description || ""
+          this.userInfo.selfLink = user.selfLink || ""
+          this.userInfo.friendLink.items = user.friendLink || ""
+          this.userInfo.friendLink.index = this.userInfo.friendLink.items.length || 0
         }
       },
       handleSubmit(name) {
