@@ -7,7 +7,7 @@ yarn install
 
 ### TODO
 - [x] 博客用户添加友链和GitHub等资料，完善侧边栏
-- [ ] 登录注册页面重做
+- [x] 登录注册页面重做
 - [ ] 入口校验，现在只是前端校验，后端访问接口还要校验
 - [ ] 各种输入校验
 - [ ] 修改样式，去掉边框
@@ -17,6 +17,7 @@ yarn install
 - [ ] 样式抽取，减少css
 - [ ] 用户找回密码功能
 - [ ] 使用GitHub OAuth2 进行登录
+- [ ] 完善登录注册界面，回到注册功能
 
 ### Compiles and hot-reloads for development
 ```

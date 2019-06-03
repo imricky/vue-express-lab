@@ -53,17 +53,26 @@ const routes = [
         // UserProfile 会被渲染在 User 的 <router-view> 中
         path: 'setting',
         name: 'setting',
-        component: BasicSetting
+        component: BasicSetting,
+        meta:{
+          requireAuth: true,
+        }
       },
       {
         path: 'articleManage',
         name: 'ArticleManage',
-        component: ArticleManage
+        component: ArticleManage,
+        meta:{
+          requireAuth: true,
+        }
       },
       {
         path: 'editor',
         name: 'editor',
-        component: Editor
+        component: Editor,
+        meta:{
+          requireAuth: true,
+        }
       }
     ]
   },
@@ -90,10 +99,15 @@ const router = new VueRouter({
   }
 })
 
+function getToken() {
+  let token = window.localStorage.getItem('jwt_token')
+  return !!token
+}
+
+//白名单
+// const whiteList =
+
 router.beforeEach((to, from, next) => {
-  // console.log(to)
-  // console.log(from)
-  next()
   // if(getToken()){
   //   //登录后将导向/login路由重定向到主页面
   //   if (to.path === '/login') {
@@ -112,6 +126,14 @@ router.beforeEach((to, from, next) => {
   // }else {
   //   next('/login');
   // }
+  if(getToken() && to.path === '/signin'){
+    next('/')
+  }else if(!getToken() && to.meta.requireAuth){
+    next('/signin')
+  }else {
+    next()
+  }
+
 })
 
 export default router

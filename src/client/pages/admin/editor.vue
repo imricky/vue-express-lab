@@ -44,6 +44,14 @@
         let jwtUser
         if (token) {
           jwtUser = jwt.decode(token)
+        }else {
+          this.$Message.error({
+            content: '您还没有登录，请登录后重试！',
+            // onClose: () => {
+            //   this.$router.push('/')
+            // }
+          })
+          return false
         }
         let content = this.content
         let title = this.title

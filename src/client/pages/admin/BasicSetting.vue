@@ -131,6 +131,15 @@
         let jwtUser
         if (token) {
           jwtUser = jwt.decode(token)
+        }else {
+          this.$Message.error({
+            content: 'Token解析错误，请重新登陆后再重试',
+            onClose: () => {
+              window.localStorage.removeItem('jwt_token')
+              this.$router.go(0)
+            }
+          })
+          return false
         }
         let res = await this.$axios({
           url: '/api/user/getInfo',
@@ -156,11 +165,22 @@
         this.$refs[name].validate((valid) => {
           if (valid) {
             this.updateUser().then(res => {
-              if (res.data.data.ok === 1) {
+              if (res.data.data.ok && res.data.data.ok === 1) {
                 this.$Message.success({
                   content: '保存成功',
                   onClose: () => {
                     this.$router.go(0)
+                  }
+                })
+              }else {
+                this.$Message.error({
+                  content: `保存失败${res.data.data.errMessage}`,
+                  onClose: () => {
+                    //发现是Token错误就直接remove
+                    if(res.data.data.removeToken){
+                      window.localStorage.removeItem('jwt_token')
+                    }
+                    this.$router.push('/signin')
                   }
                 })
               }
@@ -186,6 +206,7 @@
             friendLink: this.userInfo.friendLink
           }
         })
+
         return res
       }
     },

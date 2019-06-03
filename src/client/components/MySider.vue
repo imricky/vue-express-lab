@@ -28,7 +28,8 @@
           <Icon type="md-bowtie"/>
           掘金
         </a>
-        <a class="self-link" v-if="this.userInfo.selfLink.jianshu" :href="this.userInfo.selfLink.jianshu" target="_blank">
+        <a class="self-link" v-if="this.userInfo.selfLink.jianshu" :href="this.userInfo.selfLink.jianshu"
+           target="_blank">
           <Icon type="ios-bookmarks"/>
           简书
         </a>
@@ -36,7 +37,7 @@
       <Divider orientation="left">友链</Divider>
       <div class="self-data">
         <a class="self-link" v-for="item in this.userInfo.friendLink" :href="item.url" target="_blank">
-          <Icon type="ios-link-outline" />
+          <Icon type="ios-link-outline"/>
           {{item.name}}
         </a>
       </div>
@@ -67,17 +68,20 @@
       async getUserInfo() {
         let token = window.localStorage.getItem('jwt_token')
         let jwtUser
+        let user
         if (token) {
           jwtUser = jwt.decode(token)
+          let res = await this.$axios({
+            url: '/api/user/getInfo',
+            method: 'POST',
+            data: {
+              _id: jwtUser._id
+            }
+          })
+          user = res.data.data
+        } else {
+          user = void 0
         }
-        let res = await this.$axios({
-          url: '/api/user/getInfo',
-          method: 'POST',
-          data: {
-            _id: jwtUser._id
-          }
-        })
-        let user = res.data.data
         if (!_.isUndefined(user)) {
           this.userInfo._id = user._id
           this.userInfo.username = user.username

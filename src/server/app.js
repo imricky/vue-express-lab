@@ -63,8 +63,8 @@ const userRouter = require('./routers/api/user') //登录&注册
 const articleRouter = require('./routers/api/article') //文章方法
 
 app.use('/test', jwtAuth,testRouter)
-app.use('/api/user', userRouter)
-app.use('/api/article', articleRouter)
+app.use('/api/user',jwtAuth,userRouter)
+app.use('/api/article', jwtAuth,articleRouter)
 
 
 
@@ -72,7 +72,11 @@ app.use((err, req, res, next) => {
   // set locals, only providing error in development
   if (err.name === 'UnauthorizedError') {
     logger.error(err.message)
-    res.status(401).send('invalid token...');
+    res.status(401).json({
+      success:false,
+      errMessage:'无效的Token!请登陆后重试!',
+      removeToken:true
+    });
   }
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
