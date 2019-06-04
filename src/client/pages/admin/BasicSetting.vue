@@ -78,14 +78,14 @@
           phone: '',
           email: '',
           remark: '',
-          description:'',
-          selfLink:{
-            github:'',
-            jianshu:'',
+          description: '',
+          selfLink: {
+            github: '',
+            jianshu: '',
             juejin: ''
           },
           friendLink: {
-            index:1,
+            index: 1,
             items: [
               {
                 name: '',
@@ -113,7 +113,7 @@
     },
     computed: {},
     methods: {
-      handleAdd () {
+      handleAdd() {
         this.userInfo.friendLink.index++
         this.userInfo.friendLink.items.push({
           name: '',
@@ -121,8 +121,8 @@
           index: this.userInfo.friendLink.index,
         })
       },
-      handleRemove (index) {
-        this.userInfo.friendLink.items.splice(index,1)
+      handleRemove(index) {
+        this.userInfo.friendLink.items.splice(index, 1)
         // this.userInfo.friendLink.index -= 1 //TODO 这个地方怎么动态改变标签的名称，以后解决
       },
 
@@ -131,7 +131,7 @@
         let jwtUser
         if (token) {
           jwtUser = jwt.decode(token)
-        }else {
+        } else {
           this.$Message.error({
             content: 'Token解析错误，请重新登陆后再重试',
             onClose: () => {
@@ -165,25 +165,20 @@
         this.$refs[name].validate((valid) => {
           if (valid) {
             this.updateUser().then(res => {
-              if (res.data.data.ok && res.data.data.ok === 1) {
+              if(res.data.success === false){
+                this.$Message.error(`更新失败,${res.data.data.errMessage}`)
+                return false
+              }else {
                 this.$Message.success({
                   content: '保存成功',
                   onClose: () => {
                     this.$router.go(0)
                   }
                 })
-              }else {
-                this.$Message.error({
-                  content: `保存失败${res.data.data.errMessage}`,
-                  onClose: () => {
-                    //发现是Token错误就直接remove
-                    if(res.data.data.removeToken){
-                      window.localStorage.removeItem('jwt_token')
-                    }
-                    this.$router.push('/signin')
-                  }
-                })
               }
+            }).catch(e => {
+              this.$Message.error(`更新失败${e}`)
+              return false
             })
           } else {
             this.$Message.error('校验失败!')
@@ -192,22 +187,26 @@
         })
       },
       async updateUser() {
-        let res = await this.$axios({
-          url: '/api/user/' + this.userInfo._id,
-          method: 'PATCH',
-          data: {
-            username: this.userInfo.username,
-            phone: this.userInfo.phone,
-            email: this.userInfo.email,
-            remark: this.userInfo.remark,
-            description: this.userInfo.description,
-            updated: Date.now(),
-            selfLink: this.userInfo.selfLink,
-            friendLink: this.userInfo.friendLink
-          }
-        })
-
-        return res
+        let res
+        try {
+          res = await this.$axios({
+            url: '/api/user/' + this.userInfo._id,
+            method: 'PATCH',
+            data: {
+              username: this.userInfo.username,
+              phone: this.userInfo.phone,
+              email: this.userInfo.email,
+              remark: this.userInfo.remark,
+              description: this.userInfo.description,
+              updated: Date.now(),
+              selfLink: this.userInfo.selfLink,
+              friendLink: this.userInfo.friendLink
+            }
+          })
+          return res
+        } catch (e) {
+          return e.response
+        }
       }
     },
     created() {

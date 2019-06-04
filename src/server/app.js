@@ -74,8 +74,10 @@ app.use((err, req, res, next) => {
     logger.error(err.message)
     res.status(401).json({
       success:false,
-      errMessage:'无效的Token!请登陆后重试!',
-      removeToken:true
+      data:{
+        errMessage:'无效的Token!请登陆后重试!',
+        removeToken:true
+      },
     });
   }
   res.locals.message = err.message

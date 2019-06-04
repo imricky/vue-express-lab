@@ -27,6 +27,8 @@ axios.interceptors.response.use(function (response) {
   // Do something with response data
   return response
 }, function (error) {
+  console.log('被拒绝了')
+  console.log(`${error.response}`)
   // Do something with response error
   return Promise.reject(error)
 })
