@@ -1,43 +1,50 @@
 <template>
-    <div class="layout">
-      <div class="shadow">
-        <div class="title">Awesome Blog</div>
-        <div class="input-label-wrapper">
-          <div class="input-label">
-            <Form ref="formInline" :model="formInline" :rules="ruleInline" label-position="top">
-              <FormItem prop="user" label="用户名">
-                <Input type="text" v-model="formInline.user" placeholder="Username" class="base-input">
-                  <Icon type="ios-person-outline" slot="prepend"></Icon>
-                </Input>
-              </FormItem>
-              <FormItem prop="password" label="密码">
-                <Input type="password" v-model="formInline.password" placeholder="Password" class="base-input">
-                  <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                </Input>
-              </FormItem>
-              <FormItem prop="password" label="邮箱📮">
-                <Input type="email" v-model="formInline.email" placeholder="Email" class="base-input">
-                  <Icon type="ios-mail-outline" slot="prepend"></Icon>
-                </Input>
-              </FormItem>
-              <FormItem>
-                <span class="problem">已有账户？</span>
-              </FormItem>
-            </Form>
-          </div>
-        </div>
-        <div class="button">
-          <Form>
+  <div class="layout">
+    <div class="shadow">
+      <div class="title">Awesome Blog</div>
+      <div class="input-label-wrapper">
+        <div class="input-label">
+          <Form ref="formInline" :model="formInline" :rules="ruleInline" label-position="top">
+            <FormItem prop="user" label="用户名">
+              <Input type="text" v-model="formInline.user" placeholder="Username" class="base-input">
+                <Icon type="ios-person-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem prop="password" label="密码">
+              <Input type="password" v-model="formInline.password" placeholder="Password" class="base-input">
+                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem prop="passwdCheck" label="确认密码">
+              <Input type="password" v-model="formInline.passwdCheck" placeholder="Password" class="base-input">
+                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
+            <FormItem prop="email" label="邮箱📮">
+              <Input type="email" v-model="formInline.email" placeholder="Email" class="base-input">
+                <Icon type="ios-mail-outline" slot="prepend"></Icon>
+              </Input>
+            </FormItem>
             <FormItem>
-              <Button type="success" long @click="handleSubmit('formInline')" class="sign-in">注册</Button>
+              <router-link to="/signin">
+              <span class="problem">已有账户？</span>
+              </router-link>
             </FormItem>
           </Form>
-          >
         </div>
-
+      </div>
+      <div class="button">
+        <Form>
+          <FormItem>
+            <Button type="success" long @click="handleSubmit('formInline')" class="sign-in">注册</Button>
+          </FormItem>
+        </Form>
+        >
       </div>
 
     </div>
+
+  </div>
 
 </template>
 
@@ -46,23 +53,48 @@
   export default {
     name: "SignUp",
     data() {
+      const validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if(this.formInline.passwdCheck.length<6){
+            callback(new Error('密码长度必须大于6位'));
+          }
+          if (this.formInline.passwdCheck !== '') {
+            // 对第二个密码框单独验证
+            this.$refs.formInline.validateField('passwdCheck');
+          }
+          callback();
+        }
+      };
+      const validatePassCheck = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== this.formInline.password) {
+          callback(new Error('两次密码输入不一致'));
+        } else {
+          callback();
+        }
+      };
       return {
         formInline: {
           user: '',
           password: '',
-          email:''
+          passwdCheck: '',
+          email: ''
         },
         ruleInline: {
           user: [
-            {required: true, message: 'Please fill in the user name', trigger: 'blur'}
+            {required: true, message: '请输入用户名', trigger: 'blur'}
           ],
           password: [
-            {required: true, message: 'Please fill in the password.', trigger: 'blur'},
-            {type: 'string', min: 1, message: 'The password length cannot be less than 6 bits', trigger: 'blur'}
+            { validator: validatePass, trigger: 'blur' }
+          ],
+          passwdCheck: [
+            { validator: validatePassCheck, trigger: 'blur' }
           ],
           email: [
-            {required: true, message: 'Please fill in the password.', trigger: 'blur'},
-            {type: 'string', min: 1, message: 'The password length cannot be less than 6 bits', trigger: 'blur'}
+            {type: 'email', required: true, trigger: 'blur'}
           ]
         }
       }
@@ -144,7 +176,7 @@
 
   .shadow {
     width: 540px;
-    height: 600px;
+    height: 640px;
     border: 1px solid #FF9E92;
     position: relative;
     margin: 0 auto;
@@ -162,12 +194,12 @@
 
   .input-label-wrapper {
     border: 2px solid #239bf0;
-    height: 400px;
+    height: 460px;
 
     .input-label {
       border: 2px solid #239bf0;
       margin: 0 10px;
-      height: 320px;
+      height: 360px;
       position: relative;
       top: 55%;
       transform: translateY(-50%);
@@ -208,8 +240,9 @@
     width: 85%;
     height: 40px;
   }
-  .tip-label{
-    text-align:left;
-    font-size:16px;
+
+  .tip-label {
+    text-align: left;
+    font-size: 16px;
   }
 </style>

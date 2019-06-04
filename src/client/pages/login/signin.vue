@@ -22,7 +22,9 @@
 
               <FormItem>
                 <Checkbox v-model="formInline.rememberMe" class="remember">记住我?</Checkbox>
-                <span class="problem">登录遇到问题</span>
+                <router-link to="/signup">
+                <span class="problem">还没有注册？</span>
+                </router-link>
               </FormItem>
             </Form>
           </div>
@@ -60,7 +62,7 @@
           ],
           password: [
             {required: true, message: 'Please fill in the password.', trigger: 'blur'},
-            {type: 'string', min: 1, message: 'The password length cannot be less than 6 bits', trigger: 'blur'}
+            {type: 'string', min: 1, message: 'The password length cannot be less than 1 bits', trigger: 'blur'}
           ]
         }
       }
