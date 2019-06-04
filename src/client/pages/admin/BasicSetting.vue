@@ -166,6 +166,9 @@
           if (valid) {
             this.updateUser().then(res => {
               if(res.data.success === false){
+                if(res.data.data.removeToken){
+                  window.localStorage.removeItem('jwt_token')
+                }
                 this.$Message.error(`更新失败,${res.data.data.errMessage}`)
                 return false
               }else {
