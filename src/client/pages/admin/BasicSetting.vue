@@ -211,6 +211,13 @@
           return e.response
         }
       }
+
+  //     try {
+  //       let ret = await Services.admin.updateArticle(id, body);
+      //return {ret:0 data:ret}
+  // } catch(e) {
+  //     return {ret:1 data:null,err:e.message || e.stack}
+  // }
     },
     created() {
       this.getUserInfo()
