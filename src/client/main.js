@@ -12,6 +12,7 @@ Vue.use(mavonEditor)
 Vue.use(iView);
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
+Vue.prototype.$EventBus = new Vue()
 
 new Vue({
   render: h => h(App),
