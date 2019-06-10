@@ -137,12 +137,13 @@
 <style scoped lang="scss">
   .list-wrapper {
     box-sizing: border-box;
-    border: 3px solid rebeccapurple;
+    border: 3px solid cadetblue;
     margin: 0 auto;
     margin-left: 10px;
     background: #eee;
     max-width: 770px;
     min-width: 470px;
+    width: 770px;
 
     > .article-content {
       margin: 5px;
@@ -195,15 +196,16 @@
       height: 60px;
       border: 1px solid red;
       position: relative;
+      max-width: 770px;
+      min-width: 470px;
+      width: 450px;
 
       > .paging-bar {
         height: 40px;
-        width: 500px;
         border: 1px solid red;
         position: relative;
         top: 50%;
         transform: translateY(-50%);
-        /*margin: 0 auto;*/
 
       }
     }
