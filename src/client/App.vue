@@ -10,6 +10,7 @@
 <!--      <router-link to="/main">Go to Main</router-link>-->
 <!--    </p>-->
     <router-view></router-view>
+    <BackTop></BackTop>
 <!--    <Main />-->
   </div>
 </template>
