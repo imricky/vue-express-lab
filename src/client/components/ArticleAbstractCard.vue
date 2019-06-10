@@ -1,9 +1,9 @@
 <template>
   <div class="list-wrapper">
     <Card v-for="item in articleList" class="article-content" :key="item.title">
-      <div class="title">
+      <div>
         <router-link :to="'/article/'+item.aid">
-          <p>{{item.title}}</p>
+          <p class="title">{{item.title}}</p>
         </router-link>
       </div>
       <Divider class="article-divider"/>
@@ -141,7 +141,15 @@
       overflow: hidden;
 
       .title {
-        color: #778087
+        color: #333;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.5;
+
+        &:hover {
+          color: #239bf0;
+        }
+
       }
 
       .article-divider {
@@ -149,11 +157,13 @@
       }
 
       .content {
-        height: 100px;
-        max-width: 700px;
-        min-width: 350px;
-        width: 700px;
-        border: 1px solid red;
+        box-sizing: border-box;
+        border: 2px solid red;
+        max-width: 770px;
+        min-width: 400px;
+        color: #555;
+        font-size: 13px;
+        line-height: 24px;
       }
 
       .info {
