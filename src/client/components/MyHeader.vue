@@ -46,6 +46,10 @@
     created() {
       //获取localStorage里的jwt判断是否登录
       this.getUsername()
+      this.$EventBus.$on('updateUser',(user)=>{
+        console.log(user)
+          console.log(`nameshisha:${user.username}`)
+      })
     },
     methods: {
       backToHome() {
@@ -55,7 +59,6 @@
         let token = window.localStorage.getItem('jwt_token')
         if (token) {
           let userInfo = jwt.decode(token)
-          console.log('执行了')
           this._id = userInfo._id
           let res = await this.$axios({
             url: '/api/user/getInfo',

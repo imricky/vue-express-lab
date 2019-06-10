@@ -175,6 +175,7 @@
                 this.$Message.success({
                   content: '保存成功',
                   onClose: () => {
+                    this.$EventBus.$emit('updateUser',res.data)
                     this.$router.go(0)
                   }
                 })

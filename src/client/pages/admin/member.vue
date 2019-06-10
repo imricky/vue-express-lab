@@ -64,19 +64,6 @@
       }
     },
     methods: {
-      async getUserInfo(){
-        let user = await this.$axios({
-          url: '/api/user/getInfo',
-          method: 'POST',
-          data: {
-            username: this.username
-          }
-        })
-        console.log(user.data.data)
-        if(!_.isEmpty(user)){
-          let _id = user.data.data
-        }
-      }
     },
     created() {
       // this.getUserInfo()
