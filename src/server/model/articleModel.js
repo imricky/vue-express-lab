@@ -44,9 +44,14 @@ class ArticleMethods {
   constructor() {
   }
 
-  //获取所有文章
-  static async getList() {
-    return await articleModel.find({}).sort({updated: -1})
+  //获取所有文章,添加分页
+  static async getList(currentPage) {
+    let countQuery = await articleModel.count()
+    let findQuery =  await articleModel.find({}).sort({updated: -1}).skip(10*(currentPage-1)).limit(10)
+    return {
+      records: findQuery,
+      totalCount: countQuery
+    }
   }
 
   //获取当前作者的所有文章

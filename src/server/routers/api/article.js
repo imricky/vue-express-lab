@@ -4,8 +4,9 @@ const {ArticleService} = require('../../services/article_service')
 const logger = require('../../middlewares/logger/logger')
 
 
-router.get('/getList', (req, res, next) => {
-  ArticleService.getList()
+router.post('/getList', (req, res, next) => {
+  let currentPage = req.body.currentPage
+  ArticleService.getList(currentPage)
       .then((data) => {
         res.json({
           data

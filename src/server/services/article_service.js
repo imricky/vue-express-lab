@@ -7,17 +7,22 @@ class ArticleService {
 
   }
 
-  static async getList() {
-    const article = await Article.ArticleMethods.getList()
+  static async getList(currentPage) {
+    let res = await Article.ArticleMethods.getList(currentPage)
+    const article =res.records
+    const totalCount = res.totalCount
     for (let i = 0; i < article.length; i++) {
-      if(article[i].content.indexOf('<!--以上是摘要-->') !== -1){
+      if (article[i].content.indexOf('<!--以上是摘要-->') !== -1) {
         article[i].content = article[i].content.substring(0, article[i].content.indexOf('<!--以上是摘要-->')) + '...'
-      }else {
+      } else {
         article[i].content = article[i].content.substring(0, 100)
       }
       // article[i].content =marked(article[i].content)
     }
-    return article
+    return {
+      article,
+      totalCount
+    }
   }
 
   static async getListByAuthor(authorAid) {

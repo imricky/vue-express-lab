@@ -54,6 +54,11 @@
 
       </div>
     </Card>
+    <!--      分页器-->
+    <div class="page">
+      <Page :total="totalCount" show-total class="paging-bar"
+            @on-change="changePage"/>
+    </div>
   </div>
 </template>
 
@@ -69,17 +74,26 @@
     data() {
       return {
         articleList: '',
+        totalCount: 0,//总条数
+        currentPage: 1,//当前页
       }
     },
     methods: {
       getList() {
-        axios.get("/api/article/getList", {  // 这里的 this 指向 Vue
+        this.$axios({
+          url: '/api/article/getList',
+          method: 'POST',
+          data: {
+            currentPage: this.currentPage
+          }
         })
-            .then((response) => {
-              this.articleList = response.data.data
+            .then(res => {
+              this.articleList = res.data.data.article
+              this.totalCount = res.data.data.totalCount
             })
-            .catch((error) => {
-              console.log(error)
+            .catch(e => {
+              this.$Message.error(`出错啦,原因是：${e}`)
+              return false
             })
       },
       handleTags(tags) {
@@ -91,6 +105,18 @@
           }
         }
         return tags
+      },
+      /*
+       *  author: imricky
+       *  time: 2019-06-10 11:49
+       *  function: 分页组件
+       *  参数：page：当前页 ,从0 开始
+       *       start:开始数据 开始条数
+       *       limit:每页显示多少条 ，限定为10条
+      */
+      changePage(page) {
+        this.currentPage = page
+        this.getList()
       }
     },
     computed: {},
@@ -107,10 +133,9 @@
     margin: 0 auto;
     margin-left: 10px;
     background: #eee;
-    /*padding: 10px;*/
     max-width: 770px;
     min-width: 470px;
-    /*margin: 0 auto;*/
+
     > .article-content {
       margin: 5px;
       overflow: hidden;
@@ -148,5 +173,21 @@
       }
     }
 
+    .page {
+      height: 60px;
+      border: 1px solid red;
+      position: relative;
+
+      > .paging-bar {
+        height: 40px;
+        width: 500px;
+        border: 1px solid red;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        /*margin: 0 auto;*/
+
+      }
+    }
   }
 </style>
