@@ -1,15 +1,15 @@
 <template>
   <div class="list-wrapper">
     <Card v-for="item in articleList" class="article-content" :key="item.title">
-      <div>
-        <router-link :to="'/article/'+item.aid">
+      <router-link :to="'/article/'+item.aid">
+        <div>
           <p class="title">{{item.title}}</p>
-        </router-link>
-      </div>
-      <Divider class="article-divider"/>
-      <div class="content">
-        <p>{{item.content}}</p>
-      </div>
+        </div>
+        <Divider class="article-divider"/>
+        <div class="content">
+          <p>{{item.content}}</p>
+        </div>
+      </router-link>
       <Row type="flex" justify="start" class="code-row-bg">
         <Col span="4">
           <Icon type="ios-pricetags-outline"/>
@@ -63,7 +63,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import marked from 'marked'
+  import {render_plain} from '../common/js/util'
   /*
    *  author: imricky
    *  time: 2019-05-05 19:58
@@ -88,11 +89,18 @@
           }
         })
             .then(res => {
-              this.articleList = res.data.data.article
               this.totalCount = res.data.data.totalCount
+              let tempArticleList = res.data.data.article
+              this.articleList = tempArticleList.map(i => {
+                i.content = marked(i.content, {
+                  renderer: render_plain()
+                })
+                return i
+              })
             })
             .catch(e => {
-              this.$Message.error(`出错啦,原因是：${e}`)
+              this.$Message.error(`出错啦,原因是：${e.message}`)
+              console.log(e)
               return false
             })
       },
