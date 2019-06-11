@@ -6,7 +6,7 @@
     </div>
     <div id="tags">
       <Divider orientation="left" class="divider">标签</Divider>
-      <Input v-model="tags" class="info-input" placeholder="Enter something..."/>
+      <Input v-model="tags" class="info-input" placeholder="大数据#生活#JS,以#分割"/>
     </div>
     <div id="content">
       <Divider orientation="left" class="divider">文章内容</Divider>
@@ -38,8 +38,24 @@
       }
     },
     methods: {
-
+      checkData(){
+        if(_.isEmpty(this.title)){
+          this.$Message.error('标题不能为空')
+          return false
+        }
+        if(_.isEmpty(this.tags)){
+          this.$Message.error('标签不能为空')
+          return false
+        }
+        if(_.isEmpty(this.content)){
+          this.$Message.error('内容不能为空')
+          return false
+        }
+      },
       async publish() {
+        if(this.checkData() === false){
+          return false
+        }
         let token = window.localStorage.getItem('jwt_token')
         let jwtUser
         if (token) {

@@ -31,6 +31,9 @@ class ArticleService {
   }
 
   static async save(article) {
+    if(article.tags.indexOf('#')){
+      article.tags = article.tags.split("#")
+    }
     const res = await Article.ArticleMethods.save(article)
     return res
   }
