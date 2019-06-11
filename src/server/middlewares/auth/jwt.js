@@ -7,7 +7,8 @@ const jwtAuth = expressJwt({
   path: [
     "/api/user/login",
     "/api/user/register",
-    "/api/article/getList"
+    "/api/article/getList",
+    "/api/article/getInfo",
   ]
 })
 

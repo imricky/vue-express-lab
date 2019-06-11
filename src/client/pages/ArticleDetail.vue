@@ -30,6 +30,20 @@
                         @change="changeData"
           />
         </div>
+        <div class="pre-next">
+          <Button class="pre" v-if="pre">
+            <router-link :to="'/article/'+pre.aid">
+              <Icon type="ios-arrow-back"></Icon>
+              {{pre.title}}
+            </router-link>
+          </Button>
+          <Button class="next" v-if="next">
+            <router-link :to="'/article/'+next.aid">
+              {{next.title}}
+              <Icon type="ios-arrow-forward"></Icon>
+            </router-link>
+          </Button>
+        </div>
       </div>
     </div>
     <MyFooter/>
@@ -54,12 +68,19 @@
     },
     data() {
       return {
-        aid:this.$route.params.aid,
-        article:{}
+        aid: this.$route.params.aid,
+        article: {},
+        pre: {},
+        next: {}
       }
     },
     created() {
       this.getInfo()
+    },
+    watch: {
+      '$route'(to, from) {
+        this.getInfo(to.params.aid)
+      }
     },
     computed: {},
     methods: {
@@ -67,18 +88,22 @@
         console.log(render)
       },
 
-      async getInfo() {
+      async getInfo(toAid) {
         let res = await this.$axios({
           url: '/api/article/getInfo',
           method: 'POST',
           data: {
-            aid: this.aid
+            aid: toAid || this.aid
           }
         })
-        this.article = res.data.data
-        this.article.content = marked(res.data.data.content)
-        this.article.updated = convertUTCTimeToLocalTime(res.data.data.updated)
-        this.article.created = convertUTCTimeToLocalTime(res.data.data.created)
+        let currentArticle = res.data.data.current
+        this.article = currentArticle
+        this.article.content = marked(currentArticle.content)
+        this.article.updated = convertUTCTimeToLocalTime(currentArticle.updated)
+        this.article.created = convertUTCTimeToLocalTime(currentArticle.created)
+        //上一篇和下一篇
+        this.pre = res.data.data.pre[0]
+        this.next = res.data.data.next[0]
       }
 
     }
@@ -89,6 +114,7 @@
   .sep20 {
     height: 20px;
   }
+
   .box {
     position: relative;
     max-width: 1100px;
@@ -121,7 +147,8 @@
       height: 40px;
       /*width: auto;*/
     }
-    .article-detail{
+
+    .article-detail {
       /*display: flex;*/
       border: 1px solid #2c3e50;
       line-height: 20px;
@@ -137,6 +164,20 @@
       border: 1px solid sienna;
       min-height: 600px;
       margin: 10px;
+    }
+
+    .pre-next {
+      height: 40px;
+      border: 1px solid sienna;
+
+      .pre {
+        margin-left: 10px;
+      }
+
+      .next {
+        float: right;
+        margin-right: 10px;
+      }
     }
   }
 </style>

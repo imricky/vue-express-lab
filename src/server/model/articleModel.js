@@ -89,7 +89,22 @@ class ArticleMethods {
 
   //获取单条文章信息
   static async getInfo(aid) {
-    return await articleModel.findOne({aid: aid})
+    let current = await articleModel.findOne({aid: aid})
+
+    let pre =  await articleModel.find({'aid':{'$lt':aid}})
+        .sort({aid:-1})
+        .limit(1)
+        .select({ "aid": 1, "title": 1});
+    let next = await articleModel.find({'aid':{'$gt':aid}})
+        .sort({aid:1})
+        .limit(1)
+        .select({ "aid": 1, "title": 1});
+    return {
+      current,
+      pre,
+      next
+    }
+
   }
 
   //删除文章
