@@ -11,48 +11,43 @@
         </div>
       </router-link>
       <Row type="flex" justify="start" class="code-row-bg">
-        <Col span="4">
+        <Col span="12">
           <Icon type="ios-pricetags-outline"/>
           <span class="view-info tags">
             <a href="#"
                v-for="(i,index) in handleTags(item.tags)"
-               :key="index">{{i}}
+               :key="index" class="tags-split">
+              {{i}}
             </a>
-            <span class="info-dot">•</span>
           </span>
         </Col>
-        <Col span="4" v-if="item.viewCount">
-          <Icon type="ios-eye-outline"/>
-          <span class="view-info viewCount">
-            {{item.viewCount}}
-            <span class="info-dot">•</span>
-          </span>
-        </Col>
-        <Col span="4" v-if="item.commentCount">
-          <Icon type="ios-code-working"/>
-          <span class="view-info">
-            {{item.commentCount}}
-            <span class="info-dot">•</span>
-          </span>
-        </Col>
-        <Col span="4">
-          <span class="view-info">
+        <!--        <Col span="4" v-if="item.viewCount">-->
+        <!--          <Icon type="ios-eye-outline"/>-->
+        <!--          <span class="view-info viewCount">-->
+        <!--            {{item.viewCount}}-->
+        <!--            <span class="info-dot">•</span>-->
+        <!--          </span>-->
+        <!--        </Col>-->
+        <!--        <Col span="4" v-if="item.commentCount">-->
+        <!--          <Icon type="ios-code-working"/>-->
+        <!--          <span class="view-info">-->
+        <!--            {{item.commentCount}}-->
+        <!--            <span class="info-dot">•</span>-->
+        <!--          </span>-->
+        <!--        </Col>-->
+        <Col span="8">
+          <span class="view-info created-time">
             <Icon type="ios-time-outline"/>
-            {{item.time}}
-            <span class="info-dot">•</span>
+            {{item.updated}}
           </span>
         </Col>
         <Col span="4">
           <Icon type="ios-person-outline"/>
           <span class="view-info author">
-
             {{item.author}}
           </span>
         </Col>
       </Row>
-      <div class="info">
-
-      </div>
     </Card>
     <!--      分页器-->
     <div class="page">
@@ -64,7 +59,7 @@
 
 <script>
   import marked from 'marked'
-  import {render_plain} from '../common/js/util'
+  import {render_plain, convertUTCTimeToLocalTime} from '../common/js/util'
   /*
    *  author: imricky
    *  time: 2019-05-05 19:58
@@ -95,6 +90,7 @@
                 i.content = marked(i.content, {
                   renderer: render_plain()
                 })
+                i.updated = convertUTCTimeToLocalTime(i.updated)
                 return i
               })
             })
@@ -125,6 +121,7 @@
       changePage(page) {
         this.currentPage = page
         this.getList()
+        window.scroll(0, 0)
       }
     },
     computed: {},
@@ -174,17 +171,22 @@
         font-size: 13px;
         line-height: 24px;
       }
-
-      .info {
-        text-align: left;
-      }
-
       .view-info {
         padding: 0 5px;
 
-        .info-dot {
-          padding: 0 10px;
+        .tags-split {
+          background-color: #FFDECB;
+          margin-right: 5px;
+
+          &:last-child {
+            margin-right: 0;
+          }
         }
+      }
+
+      .created-time {
+        font-size: 10px;
+        color: #FF9E92;
       }
 
       .author {

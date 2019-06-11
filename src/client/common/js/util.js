@@ -58,7 +58,7 @@ let htmlEscapeToText = (text) => {
 // return a custom renderer for marked.
 let render_plain = () => {
 
-  var render = new marked.Renderer()
+  let render = new marked.Renderer()
 
   // render just the text of a link
   render.link = function (href, title, text) {
@@ -99,7 +99,34 @@ let render_plain = () => {
 
 }
 
+/*
+ *  author: imricky
+ *  time: 2019-06-11 10:58
+ *  function: 转换时间
+*/
+let convertUTCTimeToLocalTime = (UTCDateString) => {
+  if (!UTCDateString) {
+    return '-'
+  }
+
+  function formatFunc(str) {    //格式化显示
+    return str > 9 ? str : '0' + str
+  }
+
+  let date2 = new Date(UTCDateString)     //这步是关键
+  let year = date2.getFullYear()
+  let mon = formatFunc(date2.getMonth() + 1)
+  let day = formatFunc(date2.getDate())
+  let hour = date2.getHours()
+  let noon = hour >= 12 ? 'PM' : 'AM'
+  hour = hour >= 12 ? hour - 12 : hour
+  hour = formatFunc(hour)
+  let min = formatFunc(date2.getMinutes())
+  return year + '-' + mon + '-' + day + ' ' + noon + ' ' + hour + ':' + min
+}
+
 export {
   getUserInfo,
-  render_plain
+  render_plain,
+  convertUTCTimeToLocalTime
 }

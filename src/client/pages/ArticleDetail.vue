@@ -42,6 +42,8 @@
   import MyHeader from '../components/MyHeader'
   import MyFooter from '../components/MyFooter'
   import MySider from '../components/MySider'
+  import {convertUTCTimeToLocalTime} from '../common/js/util'
+
 
   export default {
     name: "ArticleDetail",
@@ -75,6 +77,8 @@
         })
         this.article = res.data.data
         this.article.content = marked(res.data.data.content)
+        this.article.updated = convertUTCTimeToLocalTime(res.data.data.updated)
+        this.article.created = convertUTCTimeToLocalTime(res.data.data.created)
       }
 
     }
