@@ -10,6 +10,11 @@
 
     </div>
     <!--    <Divider>More Info</Divider>-->
+
+    <div class="tags-cloud" ref="tagsCloud">
+<div></div>
+    </div>
+
     <div id="info">
       <div class="state">
         日志
@@ -47,6 +52,7 @@
 
 <script>
   import jwt from 'jsonwebtoken'
+  import WordCloud from 'wordcloud'
 
   export default {
     name: "MySider",
@@ -62,6 +68,11 @@
           selfLink: '',
           friendLink: ''
         },
+        tags: [
+          ['foo', 12, 'http://google.com?q=foo'],
+          ['bar', 6, 'http://google.com?q=bar'],
+          ['zoo', 10, 'http://google.com?q=bar']
+        ]
       }
     },
     methods: {
@@ -90,10 +101,52 @@
           this.userInfo.friendLink = user.friendLink
         }
       },
+  //     var $box = $('<div id="box" hidden />');
+  // $canvasContainer.append($box);
+  // window.drawBox = function drawBox(item, dimension) {
+  //   if (!dimension) {
+  //     $box.prop('hidden', true);
+  //
+  //     return;
+  //   }
+  //
+  //   var dppx = $dppx.val();
+  //
+  //   $box.prop('hidden', false);
+  //   $box.css({
+  //     left: dimension.x / dppx + 'px',
+  //     top: dimension.y / dppx + 'px',
+  //     width: dimension.w / dppx + 'px',
+  //     height: dimension.h / dppx + 'px'
+  //   });
+  // };
     },
     created() {
       this.getUserInfo()
     },
+    mounted() {
+      this.$nextTick(()=>{
+        // this.$refs.tagsCloud.style.backgroundColor = 'red'
+      })
+
+      WordCloud(this.$refs.tagsCloud, {
+        list: this.tags,
+        gridSize: 20,
+        fontWeight: 'normal',
+        weightFactor: 5,
+        fontFamily: 'Hiragino Mincho Pro, serif',
+        color: 'random-dark',
+        // backgroundColor: '#f0f0f0',
+        rotateRatio: 0,
+        // classes:"tags-cloud-span",
+        classes: "cloud",
+        hover: window.drawBox,
+        click: function (item) {
+          alert(item[0] + ': ' + item[2])
+        },
+      })
+      console.log(this.$refs.tagsCloud)
+    }
   }
 </script>
 
@@ -143,6 +196,18 @@
     font-size: 12px;
     color: #FF9E92;
     margin-top: 5px;
+  }
+
+  .tags-cloud {
+    border: 1px solid #2c3e50;
+    height: 200px;
+    margin-top: 5px;
+  }
+  .cloud{
+    color: #FF9E92 !important;
+    font-weight:bold;
+    font-size: 100px;
+    background-color: black;
   }
 
   .state {

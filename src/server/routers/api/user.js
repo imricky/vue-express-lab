@@ -84,7 +84,7 @@ router.post('/login', (req, res, next) => {
             tokenObj,
             'ashdjkaqkjwjehasd',
             {
-              expiresIn: 6000 // 授权时效24小时
+              expiresIn: 600000 // 授权时效24小时
             }
         )
         logger.info(`用户${username}登录成功`)
