@@ -120,4 +120,22 @@ router.post('/delete', (req, res, next) => {
         })
       })
 })
+
+//获取标签云
+router.get('/getAllTags', (req, res, next) => {
+  ArticleService.getAllTags()
+      .then((data) => {
+        res.json({
+          data
+        })
+      })
+      .catch(e => {
+        logger.error(e)
+        res.json({
+          success: false,
+          errorMessage: e
+        })
+      })
+})
+
 module.exports = router

@@ -113,6 +113,15 @@ class ArticleMethods {
     return res
   }
 
+  //获取所有tags显示在Sider上面
+  static async getAllTags() {
+    let res = await articleModel
+        .find({})
+        .select({"tags":1,"_id":0})
+    return res
+  }
+
+
 }
 
 module.exports = {
