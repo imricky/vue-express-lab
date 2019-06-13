@@ -9,7 +9,10 @@
 <!--      <router-link to="/bar">Go to Bar</router-link>\-->
 <!--      <router-link to="/main">Go to Main</router-link>-->
 <!--    </p>-->
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+
     <BackTop></BackTop>
 <!--    <Main />-->
   </div>

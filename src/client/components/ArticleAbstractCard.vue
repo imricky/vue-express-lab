@@ -127,7 +127,7 @@
     computed: {},
     mounted() {
       this.getList()
-      this.$EventBus.$on('updateList',(val)=>{
+      this.$EventBus.$on('updateList', (val) => {
         this.articleList = val
         this.totalCount = 0
       })
@@ -175,6 +175,7 @@
         font-size: 13px;
         line-height: 24px;
       }
+
       .view-info {
         padding: 0 5px;
 

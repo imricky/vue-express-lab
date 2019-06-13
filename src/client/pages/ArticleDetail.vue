@@ -82,6 +82,11 @@
         this.getInfo(to.params.aid)
       }
     },
+    mounted(){
+      this.$EventBus.$on('updateList',(val)=>{
+        this.$router.push({ name: 'Main', params: { val: val }})
+      })
+    },
     computed: {},
     methods: {
       changeData(value, render) {
