@@ -83,6 +83,11 @@ class ArticleService {
     }
     return final
   }
+
+  static async getListByTags(tagName) {
+    const res = await Article.ArticleMethods.getListByTags(tagName)
+    return res
+  }
 }
 
 module.exports = {

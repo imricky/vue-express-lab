@@ -106,6 +106,19 @@
           tagsArr.push(res.data.data[i])
         }
         this.tags = tagsArr
+      },
+      async getListByTags(tagName){
+        let res = await this.$axios({
+          url: '/api/article/getListByTags',
+          method: 'POST',
+          data: {
+            tagName
+          }
+        })
+
+        if(res){
+          this.$EventBus.$emit('updateList',res.data.data)
+        }
       }
       //     var $box = $('<div id="box" hidden />');
       // $canvasContainer.append($box);
@@ -135,6 +148,7 @@
     },
     watch: {
       tags: function () {
+        let self = this
         WordCloud(this.$refs.tagsCloud, {
           list: this.tags,
           gridSize: 10,
@@ -154,8 +168,8 @@
 
           hover: (item, dimension, event)=>{
           },
-          click: function (item) {
-            alert(item[0] + ': ' + item[1])
+          click: (item) => {
+            self.getListByTags(item[0])
           },
         })
       }

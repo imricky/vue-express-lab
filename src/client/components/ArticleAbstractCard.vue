@@ -50,7 +50,7 @@
       </Row>
     </Card>
     <!--      分页器-->
-    <div class="page">
+    <div class="page" v-if="totalCount !== 0">
       <Page :total="totalCount" show-total class="paging-bar"
             @on-change="changePage"/>
     </div>
@@ -127,7 +127,11 @@
     computed: {},
     mounted() {
       this.getList()
-    }
+      this.$EventBus.$on('updateList',(val)=>{
+        this.articleList = val
+        this.totalCount = 0
+      })
+    },
   }
 </script>
 

@@ -20,7 +20,7 @@ axios.interceptors.request.use(function (config) {
 
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
-  console.log("data===>", response.data.data)
+  // console.log("data===>", response.data.data)
   if(response.data.token){
     window.localStorage.setItem('jwt_token', response.data.token);
   }

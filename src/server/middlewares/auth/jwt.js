@@ -10,6 +10,7 @@ const jwtAuth = expressJwt({
     "/api/article/getList",
     "/api/article/getInfo",
     "/api/article/getAllTags",
+    "/api/article/getListByTags",
   ]
 })
 

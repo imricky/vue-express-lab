@@ -120,6 +120,12 @@ class ArticleMethods {
         .select({"tags":1,"_id":0})
     return res
   }
+  //根据标签名称找到对应文章列表
+  static async getListByTags(tagName) {
+    let res = await articleModel
+        .find({"tags":tagName})
+    return res
+  }
 
 
 }

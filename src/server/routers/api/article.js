@@ -121,9 +121,26 @@ router.post('/delete', (req, res, next) => {
       })
 })
 
-//获取标签云
+//获取所有标签云
 router.get('/getAllTags', (req, res, next) => {
   ArticleService.getAllTags()
+      .then((data) => {
+        res.json({
+          data
+        })
+      })
+      .catch(e => {
+        logger.error(e)
+        res.json({
+          success: false,
+          errorMessage: e
+        })
+      })
+})
+//获取标签云对应的文章列表
+router.post('/getListByTags', (req, res, next) => {
+  let tagName = req.body.tagName
+  ArticleService.getListByTags(tagName)
       .then((data) => {
         res.json({
           data
