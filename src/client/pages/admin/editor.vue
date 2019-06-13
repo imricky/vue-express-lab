@@ -116,9 +116,10 @@
             aid: this.aid
           },
         })
-        this.title = res.data.data.title
-        this.tags = res.data.data.tags.toString() //TODO:这个地方数组需要处理一下,有坑
-        this.content = res.data.data.content
+        let currentArticle = res.data.data.current
+        this.title = currentArticle.title
+        this.tags = currentArticle.tags.join('#')
+        this.content = currentArticle.content
       }
 
     },
