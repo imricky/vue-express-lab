@@ -12,7 +12,6 @@
     <!--    <Divider>More Info</Divider>-->
 
     <div class="tags-cloud" ref="tagsCloud">
-<div></div>
     </div>
 
     <div id="info">
@@ -68,11 +67,7 @@
           selfLink: '',
           friendLink: ''
         },
-        tags: [
-          ['foo', 12, 'http://google.com?q=foo'],
-          ['bar', 6, 'http://google.com?q=bar'],
-          ['zoo', 10, 'http://google.com?q=bar']
-        ]
+        tags: []
       }
     },
     methods: {
@@ -101,52 +96,70 @@
           this.userInfo.friendLink = user.friendLink
         }
       },
-  //     var $box = $('<div id="box" hidden />');
-  // $canvasContainer.append($box);
-  // window.drawBox = function drawBox(item, dimension) {
-  //   if (!dimension) {
-  //     $box.prop('hidden', true);
-  //
-  //     return;
-  //   }
-  //
-  //   var dppx = $dppx.val();
-  //
-  //   $box.prop('hidden', false);
-  //   $box.css({
-  //     left: dimension.x / dppx + 'px',
-  //     top: dimension.y / dppx + 'px',
-  //     width: dimension.w / dppx + 'px',
-  //     height: dimension.h / dppx + 'px'
-  //   });
-  // };
+      async getAllTags() {
+        let res = await this.$axios({
+          url: '/api/article/getAllTags',
+          method: 'GET',
+        })
+        let tagsArr = []
+        for (let i = 0; i < res.data.data.length; i++) {
+          tagsArr.push(res.data.data[i])
+        }
+        this.tags = tagsArr
+      }
+      //     var $box = $('<div id="box" hidden />');
+      // $canvasContainer.append($box);
+      // window.drawBox = function drawBox(item, dimension) {
+      //   if (!dimension) {
+      //     $box.prop('hidden', true);
+      //
+      //     return;
+      //   }
+      //
+      //   var dppx = $dppx.val();
+      //
+      //   $box.prop('hidden', false);
+      //   $box.css({
+      //     left: dimension.x / dppx + 'px',
+      //     top: dimension.y / dppx + 'px',
+      //     width: dimension.w / dppx + 'px',
+      //     height: dimension.h / dppx + 'px'
+      //   });
+      // };
     },
     created() {
       this.getUserInfo()
     },
     mounted() {
-      this.$nextTick(()=>{
-        // this.$refs.tagsCloud.style.backgroundColor = 'red'
-      })
+      this.getAllTags()
+    },
+    watch: {
+      tags: function () {
+        WordCloud(this.$refs.tagsCloud, {
+          list: this.tags,
+          gridSize: 10,
+          // minSize:14,
+          fontWeight: 1000,
+          weightFactor: 15, //字重大小
+          fontFamily: 'Hiragino Mincho Pro, serif',
+          color: 'random-dark',
+          // color: function (word, weight) {
+          //   return (weight > 4) ? '#f02222' : '#c09292'
+          // },
+          // backgroundColor: '#f0f0f0', //设置背景颜色
+          rotateRatio: 0,
+          // classes:"tags-cloud-span",
+          // classes: "cloud",
+          classes: "cloud", //classes 设置了scoped之后不生效
 
-      WordCloud(this.$refs.tagsCloud, {
-        list: this.tags,
-        gridSize: 20,
-        fontWeight: 'normal',
-        weightFactor: 5,
-        fontFamily: 'Hiragino Mincho Pro, serif',
-        color: 'random-dark',
-        // backgroundColor: '#f0f0f0',
-        rotateRatio: 0,
-        // classes:"tags-cloud-span",
-        classes: "cloud",
-        hover: window.drawBox,
-        click: function (item) {
-          alert(item[0] + ': ' + item[2])
-        },
-      })
-      console.log(this.$refs.tagsCloud)
-    }
+          hover: (item, dimension, event)=>{
+          },
+          click: function (item) {
+            alert(item[0] + ': ' + item[1])
+          },
+        })
+      }
+    },
   }
 </script>
 
@@ -200,14 +213,18 @@
 
   .tags-cloud {
     border: 1px solid #2c3e50;
-    height: 200px;
+    height: 300px;
     margin-top: 5px;
   }
-  .cloud{
-    color: #FF9E92 !important;
-    font-weight:bold;
+
+  .cloud {
+    display: block;
+    color: #FF9E92;
+    font-weight: bold;
     font-size: 100px;
     background-color: black;
+    line-height: 30px;
+    border: 1px solid #42b983;
   }
 
   .state {
