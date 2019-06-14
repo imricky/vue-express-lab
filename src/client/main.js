@@ -7,6 +7,7 @@ import router from './router'
 import './common/js/interceptor'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import store from './store'
 // use
 Vue.use(mavonEditor)
 Vue.use(iView);
@@ -17,6 +18,7 @@ Vue.prototype.$EventBus = new Vue()
 new Vue({
   render: h => h(App),
   router,
+  store,
   methods:{
     // checkLogin(){
     //   //检查是否存在session
