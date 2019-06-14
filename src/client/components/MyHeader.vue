@@ -53,8 +53,7 @@
     },
     methods: {
       backToHome() {
-        // this.$router.push({path: '/'})
-        window.location.reload()
+        this.$router.push({path: '/'})
       },
       async getUsername() {
         let token = window.localStorage.getItem('jwt_token')
