@@ -1,11 +1,51 @@
-# vue-express
+<h1 align="center">Welcome to vue-express-lab 👋</h1>
+<p>
+  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <a href="http:/dc/rqcao.com">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" target="_blank" />
+  </a>
+  <a href="https://license.com">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" target="_blank" />
+  </a>
+  <a href="https://twitter.com/rqcao">
+    <img alt="Twitter: rqcao" src="https://img.shields.io/twitter/follow/rqcao.svg?style=social" target="_blank" />
+  </a>
+</p>
 
-## Project setup
-```
+> an awesome blog using vue &amp; express
+
+### 🏠 [Homepage](https://rqcao.com)
+
+## Install
+
+```sh
 yarn install
 ```
 
-### TODO
+## Usage
+
+```sh
+yarn using command
+```
+
+## Compiles and hot-reloads for development
+
+```sh
+yarn run serve
+```
+
+## Compiles and minifies for production
+```
+yarn run build
+```
+
+## Run tests
+
+```sh
+yarn run test
+```
+
+## TODO
 - [x] 博客用户添加友链和GitHub等资料，完善侧边栏
 - [x] 登录注册页面重做
 - [x] 实现文章分页
@@ -22,25 +62,29 @@ yarn install
 - [ ] 完善登录注册界面，回到注册功能
 - [ ] 移动端适配
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+## Author
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+👤 **Ricky**
 
-### Run your tests
-```
-yarn run test
-```
+* Twitter: [@rqcao](https://twitter.com/rqcao)
+* Github: [@imricky](https://github.com/imricky)
 
-### Lints and fixes files
-```
-yarn run lint
-```
+## 🤝 Contributing
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://issues.com).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+<a href="https://www.patreon.com/rqcao">
+  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
+
+## 📝 License
+
+Copyright © 2019 [Ricky](https://github.com/imricky).<br />
+This project is [MIT](https://license.com) licensed.
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
