@@ -1,14 +1,6 @@
 <template>
   <div id="app">
 <!--    <h1>Hello App!</h1>-->
-<!--    <p>-->
-<!--      &lt;!&ndash; use router-link component for navigation. &ndash;&gt;-->
-<!--      &lt;!&ndash; specify the link by passing the `to` prop. &ndash;&gt;-->
-<!--      &lt;!&ndash; <router-link> will be rendered as an `<a>` tag by default &ndash;&gt;-->
-<!--      <router-link to="/foo">Go to Foo</router-link>-->
-<!--      <router-link to="/bar">Go to Bar</router-link>\-->
-<!--      <router-link to="/main">Go to Main</router-link>-->
-<!--    </p>-->
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
