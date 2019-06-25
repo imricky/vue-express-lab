@@ -61,6 +61,7 @@ yarn run test
 - [ ] 使用GitHub OAuth2 进行登录
 - [ ] 完善登录注册界面，回到注册功能
 - [ ] 移动端适配
+- [ ] 添加完整注释（参考：[doc-demo](https://github.com/yinggaozhen/doc-demo/tree/master/javascript)）
 
 ## Author
 
