@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'querystring'
+import jwt from 'jsonwebtoken'
 
 axios.defaults.baseURL = "http://localhost:3000"  //设置 ajax 请求中的基础 URL
 
@@ -20,10 +21,12 @@ axios.interceptors.request.use(function (config) {
 
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
-  // console.log("data===>", response.data.data)
-  if(response.data.token){
-    window.localStorage.setItem('jwt_token', response.data.token);
-  }
+  console.log("data===>", response.data.data)
+  // if(response.data.token){
+  //   window.localStorage.setItem('jwt_token', response.data.token);
+  //   window.localStorage.setItem('username', response.data.username);
+  //   window.localStorage.setItem('_id', response.data._id);
+  // }
   // Do something with response data
   return response
 }, function (error) {

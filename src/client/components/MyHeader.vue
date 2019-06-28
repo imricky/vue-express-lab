@@ -26,6 +26,7 @@
 
 <script>
   import jwt from 'jsonwebtoken'
+  import {mapMutations} from 'vuex'
 
   export default {
     name: "MyHeader",
@@ -52,6 +53,7 @@
       })
     },
     methods: {
+      ...mapMutations(['unset_user']),
       backToHome() {
         this.$router.push({path: '/'})
       },
@@ -73,7 +75,7 @@
       //注销
       logout() {
         console.log(`${this.username}注销了`)
-        window.localStorage.removeItem('jwt_token')
+        this.unset_user()
         this.$router.go(0) //路由刷新，但是会一瞬间白屏，体验不好
         // location.reload() //同样的效果
       },

@@ -2,12 +2,14 @@ export default {
   // 用户login
   set_user: (state, user) => {
     localStorage.setItem('jwt_token', user.token)
-    localStorage.setItem('userName', user.name)
+    localStorage.setItem('username', user.username)
+    localStorage.setItem('_id', user._id)
     state.user = user
   },
   unset_user: (state) => {
     localStorage.removeItem('jwt_token')
-    localStorage.removeItem('userName')
+    localStorage.removeItem('username')
+    localStorage.removeItem('_id')
     state.user = {}
   },
 

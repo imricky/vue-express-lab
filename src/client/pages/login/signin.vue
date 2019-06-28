@@ -12,7 +12,7 @@
                   <Icon type="ios-person-outline" slot="prepend"></Icon>
                 </Input>
               </FormItem>
-              <FormItem prop="password" >
+              <FormItem prop="password">
                 <label class="tip-label">密码</label>
                 <Input type="password" v-model="formInline.password" placeholder="Password" class="base-input"
                        size="large">
@@ -23,7 +23,7 @@
               <FormItem>
                 <Checkbox v-model="formInline.rememberMe" class="remember">记住我?</Checkbox>
                 <router-link to="/signup">
-                <span class="problem">还没有注册？</span>
+                  <span class="problem">还没有注册？</span>
                 </router-link>
               </FormItem>
             </Form>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
 
   export default {
     name: "SignIn",
@@ -68,6 +69,7 @@
       }
     },
     methods: {
+      ...mapMutations(['set_user']),
       handleSubmit: function (name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -80,6 +82,7 @@
             }).then(response => {
               let data = response.data
               if (data.success === true) {
+                this.set_user(data) //登录成功之后添加到状态管理里去
                 this.$Message.success({
                   content: '登录成功',
                   onClose: () => {
@@ -206,8 +209,9 @@
     width: 85%;
     height: 40px;
   }
-  .tip-label{
-    text-align:left;
-    font-size:16px;
+
+  .tip-label {
+    text-align: left;
+    font-size: 16px;
   }
 </style>
