@@ -90,13 +90,14 @@ class ArticleMethods {
   //获取单条文章信息
   static async getInfo(aid) {
     let current = await articleModel.findOne({aid: aid})
+    let updatedTime = current.updated
 
-    let pre =  await articleModel.find({'aid':{'$lt':aid}})
-        .sort({aid:-1})
+    let next =  await articleModel.find({'updated':{'$lt':updatedTime}})
+        .sort({updated:-1})
         .limit(1)
         .select({ "aid": 1, "title": 1});
-    let next = await articleModel.find({'aid':{'$gt':aid}})
-        .sort({aid:1})
+    let pre = await articleModel.find({'updated':{'$gt':updatedTime}})
+        .sort({updated:1})
         .limit(1)
         .select({ "aid": 1, "title": 1});
     return {
