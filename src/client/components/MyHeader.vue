@@ -6,7 +6,7 @@
       <div class="Search">
         <Input search placeholder="Enter something..."/>
       </div>
-      <div class="Button" v-if="!isLogin">
+      <div class="Button" v-if="user.username === void 0">
         <router-link to="/signin">
           <Button icon="md-log-in" class="Login-Button">登录</Button>
         </router-link>
@@ -15,8 +15,8 @@
         </router-link>
       </div>
       <div class="Button" v-else>
-        <router-link :to="'/member/'+username">
-          <Button icon="md-log-in" class="Login-Button">{{username}}</Button>
+        <router-link :to="'/member/'+user.username">
+          <Button icon="md-log-in" class="Login-Button">{{user.username}}</Button>
         </router-link>
         <Button icon="md-person-add" class="Register-Button" @click="logout">登出</Button>
       </div>
@@ -26,51 +26,44 @@
 
 <script>
   import jwt from 'jsonwebtoken'
-  import {mapMutations} from 'vuex'
+  import {mapMutations,mapState} from 'vuex'
 
   export default {
     name: "MyHeader",
     data() {
       return {
-        username: '',
-        _id:''
+        // username: user.username,
+        // _id:''
       }
     },
     computed: {
-      isLogin() {
-        if (this.username === '') {
-          return false
-        }
-        return true
-      }
+      localComputed () { /* ... */ },
+      // 使用对象展开运算符将此对象混入到外部对象中
+      ...mapState([
+          'user'
+      ])
     },
     created() {
       //获取localStorage里的jwt判断是否登录
-      this.getUsername()
+      //判断localStorage里有没有数据，有的话就全部取出来，赋值给state
+      if(window.localStorage.getItem('username')){
+        let user = {}
+        user.jwt_token = window.localStorage.getItem('jwt_token')
+        user.username = window.localStorage.getItem('username')
+        user._id = window.localStorage.getItem('_id')
+        this.reset_user(user)
+      }
+
+      // this.getUsername()
       this.$EventBus.$on('updateUser',(user)=>{
         console.log(user)
           console.log(`nameshisha:${user.username}`)
       })
     },
     methods: {
-      ...mapMutations(['unset_user']),
+      ...mapMutations(['reset_user','unset_user']),
       backToHome() {
         this.$router.push({path: '/'})
-      },
-      async getUsername() {
-        let token = window.localStorage.getItem('jwt_token')
-        if (token) {
-          let userInfo = jwt.decode(token)
-          this._id = userInfo._id
-          let res = await this.$axios({
-            url: '/api/user/getInfo',
-            method: 'POST',
-            data: {
-              _id: userInfo._id
-            }
-          })
-          this.username = res.data.data.username
-        }
       },
       //注销
       logout() {

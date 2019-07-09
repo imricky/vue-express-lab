@@ -12,6 +12,9 @@ export default {
     localStorage.removeItem('_id')
     state.user = {}
   },
+  reset_user:(state, user)=>{
+    state.user = user
+  },
 
   // tags
   set_tags: (state, tags) => {

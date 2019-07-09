@@ -65,6 +65,7 @@
 
 <script>
   import jwt from 'jsonwebtoken'
+  import {mapMutations,mapState} from 'vuex'
 
   export default {
     name: "BasicSetting",
@@ -113,6 +114,7 @@
     },
     computed: {},
     methods: {
+      ...mapMutations(['reset_user','unset_user']),
       handleAdd() {
         this.userInfo.friendLink.index++
         this.userInfo.friendLink.items.push({
@@ -149,7 +151,14 @@
           }
         })
         let user = res.data.data
+        let stateUser = {}
         if (!_.isEmpty(user)) {
+          //先填充vuex
+          stateUser._id = user._id
+          stateUser.username = user.username
+          stateUser.jwt_token = window.localStorage.getItem('jwt_token')
+          this.reset_user(stateUser)
+
           this.userInfo._id = user._id
           this.userInfo.username = user.username
           this.userInfo.phone = user.phone || ""
@@ -165,17 +174,18 @@
         this.$refs[name].validate((valid) => {
           if (valid) {
             this.updateUser().then(res => {
-              if(res.data.success === false){
-                if(res.data.data.removeToken){
+              if (res.data.success === false) {
+                if (res.data.data.removeToken) {
                   window.localStorage.removeItem('jwt_token')
                 }
                 this.$Message.error(`更新失败,${res.data.data.errMessage}`)
                 return false
-              }else {
+              } else {
+                console.log(res.data)
                 this.$Message.success({
                   content: '保存成功',
                   onClose: () => {
-                    this.$EventBus.$emit('updateUser',res.data)
+                    this.$EventBus.$emit('updateUser', res.data)
                     this.$router.go(0)
                   }
                 })
@@ -213,12 +223,12 @@
         }
       }
 
-  //     try {
-  //       let ret = await Services.admin.updateArticle(id, body);
+      //     try {
+      //       let ret = await Services.admin.updateArticle(id, body);
       //return {ret:0 data:ret}
-  // } catch(e) {
-  //     return {ret:1 data:null,err:e.message || e.stack}
-  // }
+      // } catch(e) {
+      //     return {ret:1 data:null,err:e.message || e.stack}
+      // }
     },
     created() {
       this.getUserInfo()
