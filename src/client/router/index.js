@@ -43,10 +43,10 @@ const routes = [
     component: ArticleDetail
   },
   {
-    path: '/member/:username',
+    path: '/member/:_id',
     component: Member,
     name: 'member',
-    redirect: '/member/:username/setting',
+    redirect: '/member/:_id/setting',
     children: [
       {
         // 当 /user/:id/profile 匹配成功，
@@ -134,6 +134,11 @@ router.beforeEach((to, from, next) => {
     next()
   }
 
+})
+
+// 跳转后返回顶部
+router.afterEach((to,from,next) => {
+  window.scrollTo(0,0);
 })
 
 export default router

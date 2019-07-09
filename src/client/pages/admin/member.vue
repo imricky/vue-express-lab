@@ -7,15 +7,15 @@
       <Layout>
         <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
           <Menu active-name="basic-setting" theme="light" width="auto" :class="menuitemClasses">
-            <MenuItem name="basic-setting" :to="'/member/'+username+'/setting'">
+            <MenuItem name="basic-setting" :to="'/member/'+$data._id+'/setting'">
               <Icon type="ios-settings-outline" />
               <span>用户设置</span>
             </MenuItem>
-            <MenuItem name="article-manage" :to="'/member/'+username+'/articleManage'">
+            <MenuItem name="article-manage" :to="'/member/'+$data._id+'/articleManage'">
               <Icon type="ios-list-box-outline" />
               <span>文章管理</span>
             </MenuItem>
-            <MenuItem name="article-publish" :to="'/member/'+username+'/editor'">
+            <MenuItem name="article-publish" :to="'/member/'+$data._id+'/editor'">
               <Icon type="ios-settings"></Icon>
               <span>文章发布</span>
             </MenuItem>
@@ -50,8 +50,8 @@
     },
     data() {
       return {
-        username:this.$route.params.username,
-        _id:'',
+        username:'',
+        _id:this.$route.params._id,
         isCollapsed: false
       }
     },
@@ -67,6 +67,7 @@
     },
     created() {
       // this.getUserInfo()
+      console.log(this.$route.params)
     },
     mounted() {
 

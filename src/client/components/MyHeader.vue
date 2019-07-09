@@ -6,7 +6,7 @@
       <div class="Search">
         <Input search placeholder="Enter something..."/>
       </div>
-      <div class="Button" v-if="user.username === void 0">
+      <div class="Button" v-if="user._id === void 0">
         <router-link to="/signin">
           <Button icon="md-log-in" class="Login-Button">登录</Button>
         </router-link>
@@ -15,7 +15,7 @@
         </router-link>
       </div>
       <div class="Button" v-else>
-        <router-link :to="'/member/'+user.username">
+        <router-link :to="'/member/'+user._id">
           <Button icon="md-log-in" class="Login-Button">{{user.username}}</Button>
         </router-link>
         <Button icon="md-person-add" class="Register-Button" @click="logout">登出</Button>
@@ -46,7 +46,7 @@
     created() {
       //获取localStorage里的jwt判断是否登录
       //判断localStorage里有没有数据，有的话就全部取出来，赋值给state
-      if(window.localStorage.getItem('username')){
+      if(window.localStorage.getItem('_id')){
         let user = {}
         user.jwt_token = window.localStorage.getItem('jwt_token')
         user.username = window.localStorage.getItem('username')

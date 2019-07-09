@@ -26,6 +26,7 @@
   import 'highlight.js/styles/monokai-sublime.css'
   import jwt from 'jsonwebtoken'
   import _ from 'lodash'
+  import {mapMutations,mapState} from 'vuex'
 
   export default {
     name: 'Editor',
@@ -38,6 +39,7 @@
       }
     },
     methods: {
+
       checkData(){
         if(_.isEmpty(this.title)){
           this.$Message.error('标题不能为空')
@@ -56,19 +58,19 @@
         if(this.checkData() === false){
           return false
         }
-        let token = window.localStorage.getItem('jwt_token')
-        let jwtUser
-        if (token) {
-          jwtUser = jwt.decode(token)
-        }else {
-          this.$Message.error({
-            content: '您还没有登录，请登录后重试！',
-            // onClose: () => {
-            //   this.$router.push('/')
-            // }
-          })
-          return false
-        }
+        // let token = window.localStorage.getItem('jwt_token')
+        // let jwtUser
+        // if (token) {
+        //   jwtUser = jwt.decode(token)
+        // }else {
+        //   this.$Message.error({
+        //     content: '您还没有登录，请登录后重试！',
+        //     // onClose: () => {
+        //     //   this.$router.push('/')
+        //     // }
+        //   })
+        //   return false
+        // }
         let content = this.content
         let title = this.title
         let tags = this.tags
@@ -81,8 +83,8 @@
               title: this.title,
               content: this.content,
               tags: this.tags,
-              author: jwtUser.username,
-              authorAid: jwtUser._id
+              author: this.$store.state.user.username,
+              authorAid: this.$store.state.user._id,
             },
           })
         } else {
@@ -123,7 +125,13 @@
       }
 
     },
-    computed: {},
+    computed: {
+      localComputed () { /* ... */ },
+      // 使用对象展开运算符将此对象混入到外部对象中
+      ...mapState([
+        'user'
+      ])
+    },
     created() {
       if (!_.isUndefined(this.aid)) {
         this.getArticleInfo(this.aid)

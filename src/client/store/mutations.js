@@ -13,6 +13,8 @@ export default {
     state.user = {}
   },
   reset_user:(state, user)=>{
+    localStorage.setItem('username', user.username)
+    localStorage.setItem('_id', user._id)
     state.user = user
   },
 
